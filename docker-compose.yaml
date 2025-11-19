@@ -1,16 +1,22 @@
-version: '3'
+
 services:
-  # my-app:
-    # image: ${docker-registry}/my-app:1.0
-    # ports:
-     # - 3000:3000
+  my-app:
+    image: ${DOCKER_REGISTRY}/my-app:1.0
+    ports:
+      - 3000:3000
+    environment:
+      - MONGO_DB_USERNAME=${MONGO_USERNAME}
+      - MONGO_DB_PWD=${MONGO_PASSWORD}
+      - MONGO_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017
+    depends_on:
+      - mongodb
   mongodb:
     image: mongo
     ports:
      - 27017:27017
     environment:
-     - MONGO_INITDB_ROOT_USERNAME=admin
-     - MONGO_INITDB_ROOT_PASSWORD=password
+     - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     volumes:
      - mongo-data:/data/db
   mongo-express:
@@ -19,9 +25,11 @@ services:
     ports:
      - 8080:8081
     environment:
-     - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-     - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+     - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_USERNAME}
+     - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_PASSWORD}
      - ME_CONFIG_MONGODB_SERVER=mongodb
+     - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_USERNAME}
+     - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_PASSWORD}
     depends_on:
      - "mongodb"
 volumes:

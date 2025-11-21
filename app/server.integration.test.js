@@ -1,6 +1,9 @@
 const request = require('supertest');
 const app = require('./server');
 
+// Increase timeout for integration tests (MongoDB connection can be slow in CI)
+jest.setTimeout(30000);
+
 describe('API Integration Tests', () => {
 
   // Test the home page

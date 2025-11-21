@@ -13,10 +13,44 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest           # Use Ubuntu runner (free for public repos)
 
+    # Start MongoDB as a service container
+    services:
+      mongodb:
+        image: mongo:6               # MongoDB 6.x
+        ports:
+          - 27017:27017              # Map port to localhost
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: password
+        # Health check to ensure MongoDB is ready before tests run
+        options: >-
+          --health-cmd "mongosh -u admin -p password --authenticationDatabase admin --eval 'db.runCommand({ping:1})' --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # Set environment variable for tests
+    env:
+      MONGO_URL: mongodb://admin:password@localhost:27017
+
     steps:
       # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Step 1.5: Wait for MongoDB to be ready
+      - name: Wait for MongoDB
+        run: |
+          for i in {1..30}; do
+            if nc -z localhost 27017; then
+              echo "MongoDB is up!"
+              exit 0
+            fi
+            echo "Waiting for MongoDB... ($i)"
+            sleep 1
+          done
+          echo "MongoDB failed to start"
+          exit 1
 
       # Step 2: Set up Node.js
       - name: Setup Node.js

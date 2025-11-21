@@ -72,6 +72,12 @@ app.get('/get-profile', function (req, res) {
   });
 });
 
-app.listen(3000, function () {
-  console.log("app listening on port 3000!");
-});
+// Only start the server if this file is run directly (not imported)
+if (require.main === module) {
+  app.listen(3000, function () {
+    console.log("app listening on port 3000!");
+  });
+}
+
+// Export the app for testing
+module.exports = app;

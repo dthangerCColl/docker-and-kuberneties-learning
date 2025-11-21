@@ -16,7 +16,16 @@ module.exports = [
         module: "readonly",
         process: "readonly",
         __dirname: "readonly",
-        console: "readonly"
+        console: "readonly",
+        // Jest globals (for test files)
+        describe: "readonly",
+        test: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        jest: "readonly"
       }
     },
 

@@ -1,0 +1,19 @@
+name: Docker Desktop MCP
+version: 1.0.0
+schema: v1
+
+mcpServers:
+  - name: docker-desktop-mcp
+    command: docker
+    args:
+      - mcp
+      - gateway
+      - run
+      - --servers
+      - docker
+      - --servers
+      - context7
+      - --servers
+      - time
+      - --block-secrets
+    env: {}

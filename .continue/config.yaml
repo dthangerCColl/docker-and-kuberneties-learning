@@ -1,0 +1,48 @@
+name: Local LM Studio + Docker MCP
+version: 1.0.0
+schema: v1
+
+models:
+  - name: phi-4-mini-reasoning
+    provider: openai
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    model: microsoft/phi-4-mini-reasoning
+    roles: [chat, apply]
+  - name: qwen3-coder-30b
+    provider: openai
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    model: qwen/qwen3-coder-30b
+    roles: [chat, apply]
+  - name: gpt-oss-20b
+    provider: openai
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    model: openai/gpt-oss-20b
+    roles: [chat, apply]
+  - name: fast-fallback
+    provider: openai
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    model: microsoft/Phi-3.5-mini-instruct
+    roles: [chat]
+
+defaultModel: phi-4-mini-reasoning
+
+chatOptions:
+  baseSystemMessage: |
+    You are a helpful coding assistant for this repository. Keep responses concise and include file paths when relevant.
+  basePlanSystemMessage: |
+    You are a careful planner. Break work into short, ordered steps that are specific to this repository. Prefer minimal steps that unblock execution or editing.
+  baseAgentSystemMessage: |
+    You are an autonomous coding agent. Propose concrete actions (read, edit, run) using the available tools; keep outputs short and reference file paths. Avoid destructive changes unless asked.
+
+mcpServers:
+  - name: docker-desktop-mcp
+    command: docker
+    args:
+      - mcp
+      - serve
+      - docker-desktop
+    env: {}

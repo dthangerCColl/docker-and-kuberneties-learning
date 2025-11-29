@@ -1,3 +1,4 @@
+# CI workflow for Kubernetes smoke tests
 name: CI — k8s smoke test
 
 on:

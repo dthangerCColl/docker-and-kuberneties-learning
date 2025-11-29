@@ -7,6 +7,7 @@ A step-by-step guide to setting up testing and GitHub Actions CI/CD for a Node.j
 ## Overview
 
 This guide covers:
+
 1. **ESLint** - Code linting (static analysis)
 2. **Jest** - Unit testing framework
 3. **Supertest** - Integration testing for APIs
@@ -25,13 +26,15 @@ This guide covers:
 ## Part 1: Setting Up ESLint (Linting)
 
 ### What is ESLint?
+
 ESLint analyzes your JavaScript code *without running it* and catches:
+
 - Syntax errors
 - Undefined variables
 - Unused variables
 - Style inconsistencies
 
-### Step 1: Update package.json
+### Step 1: Update package.json for ESLint
 
 Add ESLint to devDependencies and create a lint script:
 
@@ -100,9 +103,10 @@ npm run lint
 ## Part 2: Setting Up Jest (Unit Testing)
 
 ### What is Jest?
+
 Jest is a testing framework that lets you write tests to verify your code works correctly.
 
-### Step 1: Update package.json
+### Step 1: Update package.json for Jest
 
 ```json
 {
@@ -173,6 +177,7 @@ npm test
 ## Part 3: Integration Testing with Supertest
 
 ### What is Supertest?
+
 Supertest lets you make HTTP requests to your Express app in tests.
 
 ### Step 1: Add Supertest
@@ -247,6 +252,7 @@ npm test                # Run tests
 ## Part 4: GitHub Actions CI/CD Pipeline
 
 ### What is GitHub Actions?
+
 GitHub's built-in CI/CD system that runs workflows automatically on push/PR events.
 
 ### Step 1: Create Workflow Directory
@@ -371,7 +377,7 @@ git push origin dev
 ### Useful Git Commands
 
 | Command | Purpose |
-|---------|---------|
+| ------- | ------- |
 | `git status` | See changed files |
 | `git diff` | See line changes (press `q` to exit) |
 | `git add .` | Stage all changes |
@@ -399,7 +405,7 @@ cat ~/.ssh/id_ed25519.pub | pbcopy
 
 ### Step 3: Add to GitHub
 
-1. Go to https://github.com/settings/keys
+1. Go to <https://github.com/settings/keys>
 2. Click "New SSH key"
 3. Paste the key
 4. Click "Add SSH key"
@@ -453,7 +459,7 @@ ssh -T git@github.com
 
 ## Pipeline Flow Diagram
 
-```
+```text
 Push to dev/test/master
         │
         ▼
@@ -476,14 +482,17 @@ Push to dev/test/master
 ## Troubleshooting
 
 ### ESLint: 'describe' is not defined
+
 Add Jest globals to `eslint.config.js` globals section.
 
 ### Tests timeout in CI
+
 - Add MongoDB health check to workflow
 - Increase Jest timeout: `jest.setTimeout(30000)`
 - Add "Wait for MongoDB" step
 
 ### Git push authentication failed
+
 - Use SSH keys instead of HTTPS
 - Or use GitHub CLI: `gh auth login`
 
@@ -492,7 +501,7 @@ Add Jest globals to `eslint.config.js` globals section.
 ## Key Concepts Summary
 
 | Term | Meaning |
-|------|---------|
+| ---- | ------- |
 | **Linting** | Static code analysis (finds bugs without running code) |
 | **Unit Tests** | Test individual functions in isolation |
 | **Integration Tests** | Test components working together |
@@ -502,4 +511,4 @@ Add Jest globals to `eslint.config.js` globals section.
 
 ---
 
-*Guide created from hands-on session - November 2024*
+Guide created from hands-on session - November 2024

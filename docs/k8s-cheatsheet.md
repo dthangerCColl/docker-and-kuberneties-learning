@@ -3,6 +3,7 @@
 Quick reference for running this repo's Node app + MongoDB + mongo-express on a local Kubernetes cluster.
 
 Prereqs
+
 - Docker Desktop with Kubernetes enabled (or kind for CI/local testing)
 - kubectl configured for the target cluster (docker-desktop or kind)
 - Make the helper scripts executable: `chmod +x scripts/*.sh`
@@ -19,6 +20,7 @@ Common tasks
   - ./scripts/smoke-test.sh
 
 Useful kubectl commands
+
 - Check pods and status
   - kubectl get pods -o wide -n default
 
@@ -36,14 +38,17 @@ Useful kubectl commands
   - kubectl port-forward svc/mongo-express 8081:8081
 
 Probes & Secrets notes
+
 - The manifests include readiness and liveness probes. The mongo-express probes are implemented as an exec probe that builds the Basic Auth header at runtime using env vars sourced from the `mongodb-creds` Secret.
 - Secrets in `k8s/mongodb-secret.yaml` are for learning/demo purposes only. For production, use a secret manager or SealedSecrets.
 
 Troubleshooting tips
+
 - If a pod fails readiness/liveness repeatedly, inspect the container logs and describe the pod to check probe stderr/stdout.
 - If your LoadBalancer Service doesn't show `EXTERNAL-IP: localhost` on Docker Desktop, use port-forward as shown above.
 
 Next steps
+
 - Replace plaintext/development secrets with SealedSecrets or an external secret store.
 - Add resource limits and probes tuning for production-like behavior.
 

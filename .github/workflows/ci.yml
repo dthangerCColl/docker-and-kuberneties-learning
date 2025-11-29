@@ -38,7 +38,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 1.5: Wait for MongoDB to be ready
+      # Step 1.5: Lint Markdown files
+      - name: Lint Markdown
+        run: |
+          npm install markdownlint-cli2
+          npx markdownlint-cli2 "**/*.md" "#node_modules" "#app/node_modules"
+
+      # Step 2: Wait for MongoDB to be ready
       - name: Wait for MongoDB
         run: |
           for i in {1..30}; do
@@ -52,7 +58,7 @@ jobs:
           echo "MongoDB failed to start"
           exit 1
 
-      # Step 2: Set up Node.js
+      # Step 3: Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -60,17 +66,17 @@ jobs:
           cache: 'npm'               # Cache npm packages for faster builds
           cache-dependency-path: app/package-lock.json
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies
       - name: Install dependencies
         working-directory: ./app
         run: npm ci                  # 'ci' is faster and stricter than 'install'
 
-      # Step 4: Run linter
+      # Step 5: Run linter
       - name: Run ESLint
         working-directory: ./app
         run: npm run lint
 
-      # Step 5: Run tests
+      # Step 6: Run tests
       - name: Run tests
         working-directory: ./app
         run: npm test

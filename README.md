@@ -117,3 +117,68 @@ npm run lint
 - `GET /profile-picture` – serves the demo avatar image
 
 The server reads `MONGO_URL` for the connection string; otherwise it defaults to `mongodb://admin:password@localhost:27017`.
+
+## Run with Kubernetes (Docker Desktop)
+
+This repository includes Kubernetes manifests under the `k8s/` directory so you can run the same stack (my-app, MongoDB, mongo-express) on a local Kubernetes cluster such as Docker Desktop's built-in Kubernetes.
+
+Files you will find in `k8s/`:
+- `mongodb-secret.yaml` – Kubernetes Secret with credentials used by MongoDB, the app, and mongo-express (for learning only; replace for production).
+- `mongodb-pvc.yaml` – PersistentVolumeClaim for MongoDB data (1Gi request).
+- `mongodb-deployment.yaml` / `mongodb-service.yaml` – Deployment + ClusterIP service for MongoDB.
+- `my-app-deployment.yaml` / `my-app-service.yaml` – Deployment + LoadBalancer service for the Node app.
+- `mongo-express-deployment.yaml` / `mongo-express-service.yaml` – Deployment + LoadBalancer service for the mongo-express UI.
+
+Quick start (Docker Desktop, single-node cluster):
+
+1) Make sure Kubernetes is enabled in Docker Desktop and `kubectl` is configured for the cluster.
+
+2) Apply the MongoDB manifests (you can run the helper script instead – see below):
+
+```bash
+kubectl apply -f k8s/mongodb-secret.yaml
+kubectl apply -f k8s/mongodb-pvc.yaml
+kubectl apply -f k8s/mongodb-deployment.yaml
+kubectl apply -f k8s/mongodb-service.yaml
+```
+
+3) Build the local app image and deploy the app + UI (helper script provided):
+
+```bash
+# build image and deploy my-app + mongo-express
+chmod +x scripts/deploy-apps.sh
+./scripts/deploy-apps.sh
+```
+
+4) The services use `type: LoadBalancer`. On Docker Desktop these are mapped to `localhost` so you can open:
+
+- App: http://localhost:3000
+- mongo-express: http://localhost:8081
+
+If the LoadBalancer mapping isn't available for any reason, you can port-forward instead:
+
+```bash
+kubectl port-forward svc/my-app 3000:3000
+kubectl port-forward svc/mongo-express 8081:8081
+```
+
+Utility scripts
+- `scripts/deploy-mongodb.sh` – convenience script to apply the MongoDB manifests and wait for the pod to become Ready.
+- `scripts/deploy-apps.sh` – builds `local/my-app:1.0`, applies the my-app and mongo-express manifests and waits for readiness.
+- `scripts/smoke-test.sh` – simple smoke tests that verify my-app returns HTTP 200, mongo-express returns 401 without credentials and 200 with credentials (admin:password). Run after deployment to verify basic functionality.
+
+Health checks and probes
+- `k8s/my-app-deployment.yaml` includes readiness and liveness probes. The readiness probe checks `/get-profile` (so the Pod is only marked Ready when it can reach MongoDB), and the liveness probe checks `/` to ensure the web server responds.
+- `k8s/mongo-express-deployment.yaml` uses exec probes that construct the Basic Auth header at runtime from the Secret-backed environment variables (safer than embedding base64 in the manifest).
+
+Security notes
+- The manifests and scripts in this repo are intended for local learning. They use a plaintext Kubernetes Secret and the `admin:password` credentials for convenience. For any non-local or production use, replace these with stronger credentials and use a secure secrets mechanism (sealed-secrets, HashiCorp Vault, cloud KMS, etc.).
+
+Troubleshooting
+- If a pod is not Ready, check:
+  - `kubectl get pods -o wide`
+  - `kubectl describe pod <pod-name>`
+  - `kubectl logs <pod-name>`
+- If PVC is `Pending`, ensure your cluster has a default StorageClass (Docker Desktop provides `hostpath` by default).
+
+If you'd like, I can prepare a short commit message and commit these manifests and scripts to a branch, or add extra documentation snippets to this README (for example, expanding the troubleshooting section or adding screenshots).

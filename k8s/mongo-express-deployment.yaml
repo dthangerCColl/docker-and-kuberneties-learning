@@ -45,3 +45,25 @@ spec:
                 secretKeyRef:
                   name: mongodb-creds
                   key: ME_CONFIG_BASICAUTH_PASSWORD
+            readinessProbe:
+              httpGet:
+                path: /
+                port: 8081
+                httpHeaders:
+                  - name: Authorization
+                    value: "Basic YWRtaW46cGFzc3dvcmQ="
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 3
+              failureThreshold: 6
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8081
+                httpHeaders:
+                  - name: Authorization
+                    value: "Basic YWRtaW46cGFzc3dvcmQ="
+              initialDelaySeconds: 10
+              periodSeconds: 20
+              timeoutSeconds: 5
+              failureThreshold: 3

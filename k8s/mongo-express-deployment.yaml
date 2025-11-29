@@ -45,31 +45,31 @@ spec:
                 secretKeyRef:
                   name: mongodb-creds
                   key: ME_CONFIG_BASICAUTH_PASSWORD
-            readinessProbe:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - >-
-                    node -e "const http=require('http'); const b=Buffer.from(process.env.ME_CONFIG_BASICAUTH_USERNAME+':'
-                    +process.env.ME_CONFIG_BASICAUTH_PASSWORD).toString('base64'); const opts={hostname:'127.0.0.1',port:8081,
-                    path:'/',method:'GET',headers:{'Authorization':'Basic '+b}}; const req=http.request(opts,res=>{ res.resume();
-                    if(res.statusCode===200) process.exit(0); else process.exit(1);}); req.on('error',()=>process.exit(1)); req.end();"
-              initialDelaySeconds: 5
-              periodSeconds: 10
-              timeoutSeconds: 3
-              failureThreshold: 6
-            livenessProbe:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - >-
-                    node -e "const http=require('http'); const b=Buffer.from(process.env.ME_CONFIG_BASICAUTH_USERNAME+':'
-                    +process.env.ME_CONFIG_BASICAUTH_PASSWORD).toString('base64'); const opts={hostname:'127.0.0.1',port:8081,
-                    path:'/',method:'GET',headers:{'Authorization':'Basic '+b}}; const req=http.request(opts,res=>{ res.resume();
-                    if(res.statusCode===200) process.exit(0); else process.exit(1);}); req.on('error',()=>process.exit(1)); req.end();"
-              initialDelaySeconds: 10
-              periodSeconds: 20
-              timeoutSeconds: 5
-              failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - >-
+                  node -e "const http=require('http'); const b=Buffer.from(process.env.ME_CONFIG_BASICAUTH_USERNAME+':'
+                  +process.env.ME_CONFIG_BASICAUTH_PASSWORD).toString('base64'); const opts={hostname:'127.0.0.1',port:8081,
+                  path:'/',method:'GET',headers:{'Authorization':'Basic '+b}}; const req=http.request(opts,res=>{ res.resume();
+                  if(res.statusCode===200) process.exit(0); else process.exit(1);}); req.on('error',()=>process.exit(1)); req.end();"
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - >-
+                  node -e "const http=require('http'); const b=Buffer.from(process.env.ME_CONFIG_BASICAUTH_USERNAME+':'
+                  +process.env.ME_CONFIG_BASICAUTH_PASSWORD).toString('base64'); const opts={hostname:'127.0.0.1',port:8081,
+                  path:'/',method:'GET',headers:{'Authorization':'Basic '+b}}; const req=http.request(opts,res=>{ res.resume();
+                  if(res.statusCode===200) process.exit(0); else process.exit(1);}); req.on('error',()=>process.exit(1)); req.end();"
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3

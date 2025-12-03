@@ -1,0 +1,66 @@
+# Real-World GitHub Actions Workflow Best Practices
+
+In the real world, GitHub Actions are typically set up to run on every push and pull request for key branches (like `dev`, `main`, `feature/*`). This ensures code is tested early and often. However, you usually do **not** automate pull request creation—PRs are created manually or by a release automation tool, and only after tests pass.
+
+## Typical Workflow
+
+- **On every push:**
+  - Run tests, linting, and other checks.
+  - Notify the team (via email, Slack, etc.) if something fails.
+- **On pull request:**
+  - Run the same checks to ensure code quality before merging.
+- **PR creation:**
+  - Usually manual, or triggered by a release bot/tool (not by GitHub Actions directly).
+
+## How to Achieve This
+
+### 1. Testing on Each Push
+
+Set up your workflow to trigger on push:
+
+```yaml
+on:
+  push:
+    branches: [dev, main, feature/*]
+```
+
+### 2. Notify Team on Failure
+
+Add a notification step (e.g., Slack, email) using a third-party action:
+
+```yaml
+- name: Notify on failure
+  if: failure()
+  uses: some-notification-action
+  with:
+    # notification config
+```
+
+### 3. Create Pull Request Only on Command
+
+Use a manual workflow dispatch for PR creation, or a bot.
+Example: [`peter-evans/create-pull-request`](https://github.com/marketplace/actions/create-pull-request) action can create PRs, but you trigger it only when you want (e.g., via `workflow_dispatch` or after a release).
+
+```yaml
+on:
+  workflow_dispatch:
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          # PR config
+```
+
+## Summary
+
+- **Test on every push:** Yes, best practice.
+- **Notify on failure:** Yes, use notification actions.
+- **Create PR only when ready:** Use manual triggers or a bot, not automatic on every push.
+
+This gives you robust, automated testing and controlled, intentional PR creation.

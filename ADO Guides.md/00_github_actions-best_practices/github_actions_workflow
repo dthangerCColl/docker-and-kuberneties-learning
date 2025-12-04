@@ -59,7 +59,7 @@ jobs:
 
 ## Summary
 
-- **Test on every push:** Yes, best practice.
+- **Test on every push:** Yes, best practice.s
 - **Notify on failure:** Yes, use notification actions.
 - **Create PR only when ready:** Use manual triggers or a bot, not automatic on every push.
 

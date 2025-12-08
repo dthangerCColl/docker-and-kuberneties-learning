@@ -1,0 +1,25 @@
+{
+  "Markdown Placeholder": {
+    "prefix": "mdph",
+    "body": [
+      "`${1:placeholder}`"
+    ],
+    "description": "Insert backtick-wrapped placeholder (avoids HTML linting issues)"
+  },
+  "Markdown Command with Placeholder": {
+    "prefix": "mdcmd",
+    "body": [
+      "${1:command} `${2:placeholder}`    # ${3:description}"
+    ],
+    "description": "Insert command with backtick-wrapped placeholder"
+  },
+  "Markdown Code Block": {
+    "prefix": "mdcode",
+    "body": [
+      "```${1:bash}",
+      "${2:code}",
+      "```"
+    ],
+    "description": "Insert code block with language"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  // Markdown linting configuration
+  "markdownlint.config": {
+    "default": true,
+    "MD013": false,
+    "MD033": {
+      "allowed_elements": []
+    },
+    "MD036": false,
+    "MD040": false,
+    "MD041": false
+  },
+  
+  // Enable auto-fix on save for markdown files
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
+  },
+  
+  // Show markdownlint warnings in Problems panel
+  "markdownlint.run": "onType",
+  
+  // Custom workspace note: Avoid raw HTML tags in code blocks
+  // Use backticks or escape: <TAB> → `TAB` or \<TAB\>
+  "files.associations": {
+    "*.md": "markdown"
+  }
+}

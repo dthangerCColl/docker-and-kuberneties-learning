@@ -150,49 +150,59 @@ gh pr merge <number>            # Merge a PR
 ## Getting Out of Trouble
 
 ### Undo a commit (keep changes)
+
 ```zsh
 git reset --soft HEAD~1
 ```
 
 ### Undo a commit (discard changes)
+
 ```zsh
 git reset --hard HEAD~1
 ```
 
 ### Unstage a file
+
 ```zsh
 git reset <file>
 ```
 
 ### Abort a merge or rebase
+
 ```zsh
 git merge --abort
 git rebase --abort
 ```
 
 ### Recover a deleted branch
+
 ```zsh
 git reflog                      # Find branch’s last commit
 git checkout -b <branch> <commit>
 ```
 
 ### Restore a deleted file
+
 ```zsh
 git checkout HEAD -- <file>
 ```
 
 ### Fix a bad merge
+
 ```zsh
 git reset --hard ORIG_HEAD
 ```
 
 ### Find lost commits
+
 ```zsh
 git reflog                      # Show all recent HEADs
 ```
 
 ### Resolve merge conflicts
+
 - Edit conflicted files, then:
+
 ```zsh
 git add <file>
 git commit
@@ -216,6 +226,7 @@ alias gpo='git push origin'
 ---
 
 ## Resources
+
 - [Git Official Docs](https://git-scm.com/doc)
 - [GitHub CLI Docs](https://cli.github.com/manual/)
 - [GitHub Help](https://docs.github.com/en)

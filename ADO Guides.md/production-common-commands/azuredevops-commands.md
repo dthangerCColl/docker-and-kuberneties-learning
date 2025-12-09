@@ -1032,9 +1032,9 @@ az consumption budget create --budget-name MyBudget --amount 1000 \
 
 ## Further Resources
 
-- **Azure CLI Docs**: https://docs.microsoft.com/cli/azure/
-- **Azure DevOps Docs**: https://docs.microsoft.com/azure/devops/
-- **Azure Architecture Center**: https://docs.microsoft.com/azure/architecture/
-- **Azure Pricing Calculator**: https://azure.microsoft.com/pricing/calculator/
-- **Azure Status**: https://status.azure.com/
-- **Azure Updates**: https://azure.microsoft.com/updates/
+- **Azure CLI Docs**: <https://docs.microsoft.com/cli/azure/>
+- **Azure DevOps Docs**: <https://docs.microsoft.com/azure/devops/>
+- **Azure Architecture Center**: <https://docs.microsoft.com/azure/architecture/>
+- **Azure Pricing Calculator**: <https://azure.microsoft.com/pricing/calculator/>
+- **Azure Status**: <https://status.azure.com/>
+- **Azure Updates**: <https://azure.microsoft.com/updates/>

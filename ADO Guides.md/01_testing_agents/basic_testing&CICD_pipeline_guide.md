@@ -347,7 +347,7 @@ jobs:
         with:
           context: .
           push: false
-          tags: docker-and-kubernetes-learning:${{ github.sha }}
+          tags: developing-with-docker:${{ github.sha }}
 ```
 
 ---
@@ -434,7 +434,7 @@ ssh -T git@github.com
 
 ```json
 {
-  "name": "docker-and-kubernetes-learning",
+  "name": "developing-with-docker",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {

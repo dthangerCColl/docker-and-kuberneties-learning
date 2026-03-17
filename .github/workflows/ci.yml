@@ -100,6 +100,6 @@ jobs:
         with:
           context: .                 # Build from repo root (where Dockerfile is)
           push: false                # Don't push to registry, just verify it builds
-          tags: docker-and-kubernetes-learning:${{ github.sha }}
+          tags: developing-with-docker:${{ github.sha }}
           cache-from: type=gha       # Use GitHub Actions cache
           cache-to: type=gha,mode=max

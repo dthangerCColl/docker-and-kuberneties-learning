@@ -1,4 +1,4 @@
-# Demo app - Developing with Docker
+# Demo app - Docker and Kubernetes Learning
 
 A minimal Node.js/Express profile editor with a vanilla JS frontend that persists profile updates to MongoDB. The project is intended for practicing containerization and Compose orchestration.
 

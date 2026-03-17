@@ -1,5 +1,5 @@
 {
-  "name": "developing-with-docker",
+  "name": "docker-and-kubernetes-learning",
   "version": "1.0.0",
   "description": "A minimal Node.js/Express profile editor with a vanilla JS frontend that persists profile updates to MongoDB. The project is intended for practicing containerization and Compose orchestration.",
   "main": "index.js",
@@ -13,16 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dthangerCColl/developing-with-docker.git"
+    "url": "git+https://github.com/dthangerCColl/docker-and-kubernetes-learning.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/dthangerCColl/developing-with-docker/issues"
+    "url": "https://github.com/dthangerCColl/docker-and-kubernetes-learning/issues"
   },
-  "homepage": "https://github.com/dthangerCColl/developing-with-docker#readme",
+  "homepage": "https://github.com/dthangerCColl/docker-and-kubernetes-learning#readme",
   "devDependencies": {
     "markdownlint-cli2": "^0.19.1"
   }

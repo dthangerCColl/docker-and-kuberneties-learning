@@ -53,7 +53,7 @@ docker volume ls | grep my-ubuntu-data
 Ubuntu's base image has no default long-running process, so we use `sleep infinity` to keep the container alive for exec commands:
 
 ```bash
-# Run Ubuntu 22.04, mount volume to /data, keep container running in background
+# Run Ubuntu 22.04, mount volume to /data, keep container running in background (note: the / are for demonstration and need to be ommited in the actual command)
 docker run -d \
   --name ubuntu-v1 \
   -v my-ubuntu-data:/data \

@@ -4,10 +4,17 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
+# Load environment variables from .env file
+if [ -f "$ROOT_DIR/.env" ]; then
+    set -a
+    source "$ROOT_DIR/.env"
+    set +a
+fi
+
 APP_URL="http://localhost:3000"
 ME_URL="http://localhost:8081"
-ME_USER="admin"
-ME_PASS="password"
+ME_USER="${MONGO_USERNAME:-admin}"
+ME_PASS="${MONGO_PASSWORD:-password}"
 
 echo "Testing my-app at $APP_URL"
 status=$(curl -o /dev/null -s -w "%{http_code}" "$APP_URL/" || true)

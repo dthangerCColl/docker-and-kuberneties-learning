@@ -12,7 +12,7 @@ if [ -f "$ROOT_DIR/.env" ]; then
 fi
 
 APP_URL="http://localhost:3000"
-ME_URL="http://localhost:8081"
+ME_URL="http://localhost:8080"
 ME_USER="${MONGO_USERNAME:-admin}"
 ME_PASS="${MONGO_PASSWORD:-password}"
 

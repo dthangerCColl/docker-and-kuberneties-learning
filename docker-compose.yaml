@@ -5,20 +5,21 @@ services:
     ports:
       - 3000:3000
     environment:
-      - MONGO_DB_USERNAME=${MONGO_USERNAME}
-      - MONGO_DB_PWD=${MONGO_PASSWORD}
-      - MONGO_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017
+      - MONGO_DB_USERNAME=${MONGO_APP_USERNAME}
+      - MONGO_DB_PWD=${MONGO_APP_PASSWORD}
+      - MONGO_URL=mongodb://${MONGO_APP_USERNAME}:${MONGO_APP_PASSWORD}@mongodb:27017/myappdb?retryWrites=true&w=majority
     depends_on:
       - mongodb
   mongodb:
     image: mongo
     ports:
-     - 27017:27017
+      - 27017:27017
     environment:
-     - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     volumes:
-     - mongo-data:/data/db
+      - mongo-data:/data/db
+      - ./docker-compose.init.js:/docker-entrypoint-initdb.d/01-init-app-user.js:ro
   mongo-express:
     image: mongo-express
     restart: always

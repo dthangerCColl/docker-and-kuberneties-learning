@@ -1,6 +1,7 @@
 # Part 03: Networking, Docker Compose, Secrets & Cleanup
 
-*Covers: Port mapping, custom networks, environment variables, secrets, Docker Compose, cleanup/pruning*
+_Covers: Port mapping, custom networks, environment variables, secrets, Docker
+Compose, cleanup/pruning_
 
 ## Step 11: Custom Networks & Environment Variables
 
@@ -20,7 +21,8 @@ docker run -d --name exercise-redis \
 
 #### Command: `docker network create exercise-network`
 
-- **Function**: Create a custom Docker bridge network for container-to-container communication.
+- **Function**: Create a custom Docker bridge network for container-to-container
+  communication.
 - **Flags**: None
 - **Arguments**:
   - `exercise-network`: Name of the custom network.
@@ -35,13 +37,16 @@ docker run -d --name exercise-redis \
   redis-server --requirepass secretpass
 ```
 
-- **Function**: Run Redis container on custom network with environment variables.
+- **Function**: Run Redis container on custom network with environment
+  variables.
 - **Flags**:
   - `--network exercise-network`: Attach container to the custom network.
-  - `-e REDIS_PASSWORD=secretpass`: (env) Set environment variable inside the container.
+  - `-e REDIS_PASSWORD=secretpass`: (env) Set environment variable inside the
+    container.
 - **Arguments**:
   - `redis:7-alpine`: Image to use.
-  - `redis-server --requirepass secretpass`: Command to run inside the container to set a Redis password.
+  - `redis-server --requirepass secretpass`: Command to run inside the container
+    to set a Redis password.
 
 ## Step 12: Docker Compose Multi-Service
 
@@ -89,14 +94,16 @@ cat > ~/docker-exercise/docker-compose.yaml << 'EOF'
 
 #### Command: `cd ~/docker-exercise && docker-compose up -d`
 
-- **Function**: Start all services defined in docker-compose.yaml in detached mode.
+- **Function**: Start all services defined in docker-compose.yaml in detached
+  mode.
 - **Flags**:
   - `-d`: (detach) Run services in background.
 - **Arguments**: None (uses default `docker-compose.yaml` file).
 
 ## Step 13: Basic Secret Management
 
-Use a bind-mounted file for secret storage (simplified for non-Swarm environments):
+Use a bind-mounted file for secret storage (simplified for non-Swarm
+environments):
 
 ```bash
 echo "redis-secret-123" > ~/docker-exercise/redis-pass.txt
@@ -120,11 +127,14 @@ docker run -d --name exercise-redis-secret \
   redis-server --requirepass $(cat /run/secrets/redis-pass.txt)
 ```
 
-- **Function**: Run Redis with a bind-mounted secret file instead of an environment variable.
+- **Function**: Run Redis with a bind-mounted secret file instead of an
+  environment variable.
 - **Flags**:
-  - `-v ~/docker-exercise/redis-pass.txt:/run/secrets/redis-pass.txt`: Bind mount secret file to container's `/run/secrets/` directory.
+  - `-v ~/docker-exercise/redis-pass.txt:/run/secrets/redis-pass.txt`: Bind
+    mount secret file to container's `/run/secrets/` directory.
 - **Arguments**:
-  - `$(cat /run/secrets/redis-pass.txt)`: Read password from the secret file to pass to Redis.
+  - `$(cat /run/secrets/redis-pass.txt)`: Read password from the secret file to
+    pass to Redis.
 
 ## Step 14: Cleanup & Pruning
 
@@ -165,6 +175,10 @@ docker system prune -a --volumes -f
 
 ## OS Notes
 
-- **macOS**: `docker-compose` is included with Docker Desktop; Linux may require installing `docker-compose-plugin` separately via package manager.
-- **Linux**: `docker system prune` will only remove resources not used by running containers.
-- **Compose Version**: This uses Compose V2 (`docker compose` instead of `docker-compose`) is also supported; replace `docker-compose` with `docker compose` if using V2.
+- **macOS**: `docker-compose` is included with Docker Desktop; Linux may require
+  installing `docker-compose-plugin` separately via package manager.
+- **Linux**: `docker system prune` will only remove resources not used by
+  running containers.
+- **Compose Version**: This uses Compose V2 (`docker compose` instead of
+  `docker-compose`) is also supported; replace `docker-compose` with
+  `docker compose` if using V2.

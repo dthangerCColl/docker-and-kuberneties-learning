@@ -2,10 +2,14 @@
 
 ## Terraform Workflow Overview
 
-Terraform is an Infrastructure as Code (IaC) tool that enables you to define and provision infrastructure using a declarative configuration language. The typical Terraform workflow follows these stages:
+Terraform is an Infrastructure as Code (IaC) tool that enables you to define and
+provision infrastructure using a declarative configuration language. The typical
+Terraform workflow follows these stages:
 
-1. **Write**: Create `.tf` configuration files defining your infrastructure resources
-2. **Initialize**: Download provider plugins and initialize the working directory
+1. **Write**: Create `.tf` configuration files defining your infrastructure
+   resources
+2. **Initialize**: Download provider plugins and initialize the working
+   directory
 3. **Plan**: Preview changes that Terraform will make to your infrastructure
 4. **Validate**: Check configuration syntax and internal consistency
 5. **Apply**: Create, update, or delete infrastructure resources
@@ -14,7 +18,10 @@ Terraform is an Infrastructure as Code (IaC) tool that enables you to define and
 
 ### Terraform with VS Code
 
-VS Code offers excellent Terraform support through extensions like HashiCorp Terraform and Terraform Advanced Syntax Highlighting. These provide syntax highlighting, IntelliSense, validation, and formatting. Terraform Cloud integration allows for remote state management and collaborative workflows.
+VS Code offers excellent Terraform support through extensions like HashiCorp
+Terraform and Terraform Advanced Syntax Highlighting. These provide syntax
+highlighting, IntelliSense, validation, and formatting. Terraform Cloud
+integration allows for remote state management and collaborative workflows.
 
 ---
 
@@ -476,7 +483,8 @@ terraform {
 
 ### VS Code Extensions
 
-- **HashiCorp Terraform**: Official extension with syntax highlighting, IntelliSense, and formatting
+- **HashiCorp Terraform**: Official extension with syntax highlighting,
+  IntelliSense, and formatting
 - **Terraform Advanced Syntax Highlighting**: Enhanced syntax highlighting
 - **Terraform Autocomplete**: Auto-completion for Terraform resources
 - **Azure Terraform**: Azure-specific Terraform support
@@ -520,15 +528,22 @@ terraform-docs markdown table . > README.md
 
 ## Best Practices
 
-1. **Version control**: Always commit `.tf` files to git, never commit `.tfstate` or `terraform.tfvars` with secrets
-2. **Remote state**: Use remote state backends (S3, Azure Storage, Terraform Cloud) for team collaboration
-3. **State locking**: Enable state locking with DynamoDB (AWS) or equivalent to prevent conflicts
-4. **Workspaces**: Use workspaces for managing multiple environments (dev, staging, prod)
+1. **Version control**: Always commit `.tf` files to git, never commit
+   `.tfstate` or `terraform.tfvars` with secrets
+2. **Remote state**: Use remote state backends (S3, Azure Storage, Terraform
+   Cloud) for team collaboration
+3. **State locking**: Enable state locking with DynamoDB (AWS) or equivalent to
+   prevent conflicts
+4. **Workspaces**: Use workspaces for managing multiple environments (dev,
+   staging, prod)
 5. **Modules**: Create reusable modules for common infrastructure patterns
 6. **Variables**: Use variables for all configurable values, never hardcode
-7. **Validation**: Run `terraform validate` and `terraform plan` before every apply
-8. **Sensitive data**: Mark sensitive outputs and use secret management tools (Vault, AWS Secrets Manager)
-9. **Resource naming**: Use consistent naming conventions with environment prefixes
+7. **Validation**: Run `terraform validate` and `terraform plan` before every
+   apply
+8. **Sensitive data**: Mark sensitive outputs and use secret management tools
+   (Vault, AWS Secrets Manager)
+9. **Resource naming**: Use consistent naming conventions with environment
+   prefixes
 10. **Documentation**: Document all variables, outputs, and complex logic
 
 ### Module Structure
@@ -615,23 +630,23 @@ resource "aws_instance" "web" {
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| Initialize directory | `terraform init` |
-| Upgrade providers | `terraform init -upgrade` |
-| Validate config | `terraform validate` |
-| Format files | `terraform fmt -recursive` |
-| Preview changes | `terraform plan` |
-| Apply changes | `terraform apply` |
-| Apply without prompt | `terraform apply -auto-approve` |
-| Destroy infrastructure | `terraform destroy` |
-| List state resources | `terraform state list` |
-| Show resource | `terraform state show resource.name` |
-| Show outputs | `terraform output` |
-| Import resource | `terraform import resource.name id` |
-| List workspaces | `terraform workspace list` |
-| Switch workspace | `terraform workspace select dev` |
-| Mark for recreation | `terraform taint resource.name` |
+| Task                   | Command                              |
+| ---------------------- | ------------------------------------ |
+| Initialize directory   | `terraform init`                     |
+| Upgrade providers      | `terraform init -upgrade`            |
+| Validate config        | `terraform validate`                 |
+| Format files           | `terraform fmt -recursive`           |
+| Preview changes        | `terraform plan`                     |
+| Apply changes          | `terraform apply`                    |
+| Apply without prompt   | `terraform apply -auto-approve`      |
+| Destroy infrastructure | `terraform destroy`                  |
+| List state resources   | `terraform state list`               |
+| Show resource          | `terraform state show resource.name` |
+| Show outputs           | `terraform output`                   |
+| Import resource        | `terraform import resource.name id`  |
+| List workspaces        | `terraform workspace list`           |
+| Switch workspace       | `terraform workspace select dev`     |
+| Mark for recreation    | `terraform taint resource.name`      |
 
 ---
 
@@ -1023,7 +1038,7 @@ name: Terraform
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -1031,34 +1046,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.6.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
 
-    - name: Terraform Format
-      run: terraform fmt -check
+      - name: Terraform Format
+        run: terraform fmt -check
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Terraform Validate
-      run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Terraform Plan
-      run: terraform plan
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Plan
+        run: terraform plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 ```
 
 ---

@@ -1,10 +1,13 @@
 # Managing AGENTS.md
 
-This file documents how to create, maintain, and evolve the AGENTS.md file for your project.
+This file documents how to create, maintain, and evolve the AGENTS.md file for
+your project.
 
 ## What is AGENTS.md?
 
-AGENTS.md is a **static reference file** that gives OpenCode (and other AI agents) context about your project. It's a one-time investment that pays dividends across sessions.
+AGENTS.md is a **static reference file** that gives OpenCode (and other AI
+agents) context about your project. It's a one-time investment that pays
+dividends across sessions.
 
 ## What it does
 
@@ -25,14 +28,14 @@ AGENTS.md is a **static reference file** that gives OpenCode (and other AI agent
 
 Update AGENTS.md when:
 
-| Trigger | Example |
-|---------|---------|
-| New service added | Add Redis for caching |
-| Port changes | mongo-express moves from 8080 to 9090 |
-| New commands learned | `./scripts/migrate.sh` |
-| Workflow changes | New test sequence |
-| Gotchas discovered | "Always export env vars before docker-compose" |
-| Non-obvious prerequisites | "Run `aws sso login` first" |
+| Trigger                   | Example                                        |
+| ------------------------- | ---------------------------------------------- |
+| New service added         | Add Redis for caching                          |
+| Port changes              | mongo-express moves from 8080 to 9090          |
+| New commands learned      | `./scripts/migrate.sh`                         |
+| Workflow changes          | New test sequence                              |
+| Gotchas discovered        | "Always export env vars before docker-compose" |
+| Non-obvious prerequisites | "Run `aws sso login` first"                    |
 
 Update frequency: **Only when something important changes** — not every session.
 
@@ -42,13 +45,15 @@ Update frequency: **Only when something important changes** — not every sessio
 
 Include only what an agent would **likely miss without help**:
 
-- Exact commands (not "run the tests" but `npm test -- --testNamePattern="profile"`)
+- Exact commands (not "run the tests" but
+  `npm test -- --testNamePattern="profile"`)
 - Command order (lint → typecheck → test)
 - Environment setup (exports required before compose)
 - Port mappings specific to your project
 - Non-obvious dependencies
 
 Exclude:
+
 - Generic language/framework conventions
 - Information easily discoverable from config files
 - Long tutorials or file trees
@@ -105,15 +110,16 @@ If content belongs in README, reference it instead of duplicating.
 
 When project structure changes significantly:
 
-| Situation | Action |
-|-----------|-------|
-| New service | Add port, dependency notes |
-| Old service removed | Remove stale references |
-| Major refactor | Rewrite relevant sections |
+| Situation           | Action                     |
+| ------------------- | -------------------------- |
+| New service         | Add port, dependency notes |
+| Old service removed | Remove stale references    |
+| Major refactor      | Rewrite relevant sections  |
 
 ### Quality Checks
 
 Periodically review AGENTS.md for:
+
 - Stale commands (still work?)
 - Removed files (still exist?)
 - Changed ports (still accurate?)
@@ -132,7 +138,8 @@ Periodically review AGENTS.md for:
 
 ## Alternative: Use opencode.json
 
-For repo-specific settings (not project context), consider `opencode.json` with an `instructions` field:
+For repo-specific settings (not project context), consider `opencode.json` with
+an `instructions` field:
 
 ```json
 {

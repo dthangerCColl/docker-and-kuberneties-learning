@@ -4,7 +4,9 @@
 
 ### Problem: Raw HTML Tags in Code Blocks
 
-When creating markdown files, **avoid using raw angle brackets** like `\<TAB\>`, `\<file\>`, `\<number\>` inside code blocks, as some linters and renderers interpret them as HTML tags.
+When creating markdown files, **avoid using raw angle brackets** like `\<TAB\>`,
+`\<file\>`, `\<number\>` inside code blocks, as some linters and renderers
+interpret them as HTML tags.
 
 ### ✅ Solution: Use One of These Alternatives
 
@@ -55,21 +57,24 @@ Your workspace now has:
 
 When generating markdown documentation:
 
-1. **Always use backticks** for placeholder text: `` `TAB` ``, `` `file` ``, `` `number` ``
-2. **Never use raw angle brackets** in code examples: ❌ `\<TAB\>` → ✅ `` `TAB` ``
-3. **Test the file** after creation by opening it in VS Code (linting will run automatically)
+1. **Always use backticks** for placeholder text: `` `TAB` ``, `` `file` ``,
+   `` `number` ``
+2. **Never use raw angle brackets** in code examples: ❌ `\<TAB\>` → ✅
+   `` `TAB` ``
+3. **Test the file** after creation by opening it in VS Code (linting will run
+   automatically)
 
 ---
 
 ## Quick Reference
 
-| ❌ Avoid | ✅ Use Instead |
-|---------|---------------|
-| `\<TAB\>` | `` `TAB` `` or `\<TAB\>` |
-| `\<file\>` | `` `file` `` or `FILE` |
-| `\<number\>` | `` `number` `` or `NUM` |
-| `\<url\>` | `` `url` `` or `URL` |
-| `\<path\>` | `` `path` `` or `PATH` |
+| ❌ Avoid     | ✅ Use Instead           |
+| ------------ | ------------------------ |
+| `\<TAB\>`    | `` `TAB` `` or `\<TAB\>` |
+| `\<file\>`   | `` `file` `` or `FILE`   |
+| `\<number\>` | `` `number` `` or `NUM`  |
+| `\<url\>`    | `` `url` `` or `URL`     |
+| `\<path\>`   | `` `path` `` or `PATH`   |
 
 ---
 

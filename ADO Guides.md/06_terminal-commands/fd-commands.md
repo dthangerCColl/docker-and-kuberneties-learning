@@ -2,12 +2,16 @@
 
 ## fd Workflow Overview
 
-`fd` is a blazing-fast, user-friendly alternative to `find` for searching files and directories from the command line. It features intuitive syntax, smart-case matching, colorized output, parallel execution, and seamless integration with other tools.
+`fd` is a blazing-fast, user-friendly alternative to `find` for searching files
+and directories from the command line. It features intuitive syntax, smart-case
+matching, colorized output, parallel execution, and seamless integration with
+other tools.
 
 Typical fd workflow:
 
 1. **Install**: Set up fd for your platform
-2. **Search**: Use simple patterns or regular expressions to find files/directories
+2. **Search**: Use simple patterns or regular expressions to find
+   files/directories
 3. **Filter**: Use options to filter by type, extension, size, owner, etc.
 4. **Operate**: Execute commands on search results (copy, delete, open, etc.)
 5. **Integrate**: Use fd with fzf, xargs, tree, rofi, emacs, and more
@@ -67,7 +71,8 @@ cargo install fd-find
 fd pattern
 ```
 
-Find files/directories matching `pattern` recursively from the current directory.
+Find files/directories matching `pattern` recursively from the current
+directory.
 
 ### 2. Regular Expression Search
 
@@ -263,7 +268,8 @@ fd | tree --fromfile
 - **Regex not matching?** Quote your pattern: `fd '^[A-Z][0-9]+$'`
 - **Pattern starts with dash?** Use `--` before the pattern: `fd -- '-pattern'`
 - **Color output not working?** Set `LS_COLORS` or use vivid/dircolors.
-- **Command not found for aliases/functions?** Use a shell script or export the function.
+- **Command not found for aliases/functions?** Use a shell script or export the
+  function.
 
 ### Best Practices
 
@@ -276,27 +282,29 @@ fd | tree --fromfile
 7. **Update fd** regularly for new features.
 8. **Customize completions** for your shell.
 9. **Use colorized output** for clarity.
-10. **Check the [troubleshooting guide](https://github.com/sharkdp/fd#troubleshooting)** for help.
+10. **Check the
+    [troubleshooting guide](https://github.com/sharkdp/fd#troubleshooting)** for
+    help.
 
 ---
 
 ## Quick Reference Card
 
-| Task | Command/Option |
-|------|---------------|
-| Simple search | `fd pattern` |
-| Regex search | `fd '^x.*rc$'` |
-| Search in dir | `fd pattern /path` |
-| By extension | `fd -e md` |
-| By type | `fd -t d` |
-| Show hidden | `fd -H` |
-| No ignore | `fd -I` |
-| Exclude | `fd -E pattern` |
-| Full path match | `fd -p` |
-| Exec per result | `fd -x cmd` |
-| Exec batch | `fd -X cmd` |
-| List details | `fd -l` |
-| Delete files | `fd ... -X rm` |
+| Task            | Command/Option                             |
+| --------------- | ------------------------------------------ |
+| Simple search   | `fd pattern`                               |
+| Regex search    | `fd '^x.*rc$'`                             |
+| Search in dir   | `fd pattern /path`                         |
+| By extension    | `fd -e md`                                 |
+| By type         | `fd -t d`                                  |
+| Show hidden     | `fd -H`                                    |
+| No ignore       | `fd -I`                                    |
+| Exclude         | `fd -E pattern`                            |
+| Full path match | `fd -p`                                    |
+| Exec per result | `fd -x cmd`                                |
+| Exec batch      | `fd -X cmd`                                |
+| List details    | `fd -l`                                    |
+| Delete files    | `fd ... -X rm`                             |
 | fzf integration | `export FZF_DEFAULT_COMMAND='fd --type f'` |
 
 ---

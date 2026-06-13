@@ -2,15 +2,19 @@
 
 ## FZF Workflow Overview
 
-FZF (Fuzzy Finder) is a fast, general-purpose command-line fuzzy finder. It helps you quickly search, filter, and select from lists of files, command history, processes, git branches, and more—right inside your terminal.
+FZF (Fuzzy Finder) is a fast, general-purpose command-line fuzzy finder. It
+helps you quickly search, filter, and select from lists of files, command
+history, processes, git branches, and more—right inside your terminal.
 
 Typical FZF workflow:
 
 1. **Install**: Set up fzf and optional shell/key bindings
 2. **Configure**: Customize fzf options, key bindings, and preview features
-3. **Integrate**: Enable fzf in your shell (zsh, bash, fish) and with tools like git, vim, tmux
+3. **Integrate**: Enable fzf in your shell (zsh, bash, fish) and with tools like
+   git, vim, tmux
 4. **Use**: Invoke fzf for file search, command history, process selection, etc.
-5. **Extend**: Create custom commands, use preview windows, and combine with other CLI tools
+5. **Extend**: Create custom commands, use preview windows, and combine with
+   other CLI tools
 6. **Optimize**: Tune performance, shortcuts, and appearance
 7. **Maintain**: Update fzf and refine your configuration
 
@@ -43,7 +47,8 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 ```
 
-- The install script enables shell/key bindings and fuzzy completion for your shell.
+- The install script enables shell/key bindings and fuzzy completion for your
+  shell.
 
 ---
 
@@ -338,31 +343,34 @@ echo $FZF_DEFAULT_COMMAND
 ## Best Practices
 
 1. **Use fast file listers**: Prefer `fd` or `rg` over `find` for speed.
-2. **Customize appearance**: Set `FZF_DEFAULT_OPTS` for layout, colors, and height.
+2. **Customize appearance**: Set `FZF_DEFAULT_OPTS` for layout, colors, and
+   height.
 3. **Integrate with your shell**: Source fzf scripts in `.zshrc` or `.bashrc`.
 4. **Create aliases/functions**: For common fuzzy workflows (cd, kill, open).
 5. **Use preview windows**: For context when searching files or git objects.
 6. **Update regularly**: Keep fzf and plugins up to date.
-7. **Modular config**: Store custom fzf functions in a separate file and source it.
+7. **Modular config**: Store custom fzf functions in a separate file and source
+   it.
 8. **Backup config**: Save your `.fzf.zsh` and related scripts.
 9. **Security**: Avoid running untrusted preview commands.
-10. **Performance**: Profile and optimize your default command for large projects.
+10. **Performance**: Profile and optimize your default command for large
+    projects.
 
 ---
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| Fuzzy-find files | `fzf` |
-| Fuzzy cd | `cd $(find . -type d | fzf)` |
-| Fuzzy kill process | `ps aux | fzf | awk '{print $2}' | xargs kill -9` |
-| Fuzzy git checkout | `git checkout $(git branch | fzf)` |
-| Fuzzy history | `history | fzf` |
-| Preview file | `fzf --preview 'cat {}'` |
-| Multi-select | `fzf --multi` |
-| Key bindings | `Ctrl+T`, `Ctrl+R`, `Alt+C` |
-| Custom command | `fcd() { cd "$(find . -type d | fzf)" }` |
+| Task               | Command                       |
+| ------------------ | ----------------------------- | -------- | ---------------- | -------------- |
+| Fuzzy-find files   | `fzf`                         |
+| Fuzzy cd           | `cd $(find . -type d          | fzf)`    |
+| Fuzzy kill process | `ps aux                       | fzf      | awk '{print $2}' | xargs kill -9` |
+| Fuzzy git checkout | `git checkout $(git branch    | fzf)`    |
+| Fuzzy history      | `history                      | fzf`     |
+| Preview file       | `fzf --preview 'cat {}'`      |
+| Multi-select       | `fzf --multi`                 |
+| Key bindings       | `Ctrl+T`, `Ctrl+R`, `Alt+C`   |
+| Custom command     | `fcd() { cd "$(find . -type d | fzf)" }` |
 
 ---
 

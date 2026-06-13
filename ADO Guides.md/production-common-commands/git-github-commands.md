@@ -2,7 +2,9 @@
 
 ## Git & GitHub Workflow Overview
 
-Git is a distributed version control system for tracking changes in source code. GitHub is a cloud platform for hosting Git repositories and collaborating on code. The typical workflow includes:
+Git is a distributed version control system for tracking changes in source code.
+GitHub is a cloud platform for hosting Git repositories and collaborating on
+code. The typical workflow includes:
 
 1. **Initialize**: Create or clone a repository
 2. **Stage**: Add files to the staging area

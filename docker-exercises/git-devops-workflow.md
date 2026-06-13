@@ -1,11 +1,16 @@
 # Git DevOps Workflow: Development to Production
 
 ## Overview
-This document outlines the standard Git workflow for committing changes to the `development` branch, creating pull requests to `main`, and keeping your local repository in sync. This follows industry best practices for collaborative development.
+
+This document outlines the standard Git workflow for committing changes to the
+`development` branch, creating pull requests to `main`, and keeping your local
+repository in sync. This follows industry best practices for collaborative
+development.
 
 ---
 
 ## Prerequisites
+
 - Git installed and configured
 - Repository cloned locally
 - Remote origin configured
@@ -30,7 +35,8 @@ git switch development
 git pull origin development
 ```
 
-**Best Practice:** Always start with a fresh, up-to-date development branch to avoid merge conflicts later.
+**Best Practice:** Always start with a fresh, up-to-date development branch to
+avoid merge conflicts later.
 
 ---
 
@@ -52,6 +58,7 @@ git commit -m "feat: add new Docker exercise for volume mounting"
 ```
 
 **Commit Message Format:**
+
 ```
 <type>(<scope>): <subject>
 
@@ -60,7 +67,8 @@ git commit -m "feat: add new Docker exercise for volume mounting"
 <footer>
 ```
 
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `build`
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`,
+`build`
 
 ---
 
@@ -74,7 +82,8 @@ git push origin development
 git push -u origin development
 ```
 
-**Best Practice:** Always push your commits after making them to ensure your work is backed up remotely.
+**Best Practice:** Always push your commits after making them to ensure your
+work is backed up remotely.
 
 ---
 
@@ -121,7 +130,8 @@ EOF
 4. Fill in the PR title and description
 5. Click "Create pull request"
 
-**Best Practice:** Always include a clear description, testing evidence, and link any related issues.
+**Best Practice:** Always include a clear description, testing evidence, and
+link any related issues.
 
 ---
 
@@ -144,6 +154,7 @@ gh pr merge <PR_NUMBER> --rebase
 ```
 
 **Merge Strategy Options:**
+
 - **Merge Commit:** Preserves all commit history (good for feature branches)
 - **Squash & Merge:** Combines all commits into one (cleaner main history)
 - **Rebase & Merge:** Replays commits on top of main (linear history)
@@ -169,7 +180,8 @@ git merge main
 git push origin development
 ```
 
-**Best Practice:** Always pull main after a merge to ensure your local copy is up-to-date.
+**Best Practice:** Always pull main after a merge to ensure your local copy is
+up-to-date.
 
 ---
 
@@ -211,13 +223,16 @@ git push origin development
 ## Best Practices Summary
 
 ### Branch Management
+
 - ✅ Keep `main` always deployable and stable
 - ✅ Use `development` for integrating features
-- ✅ Create feature branches off development for large features: `git checkout -b feature/my-feature development`
+- ✅ Create feature branches off development for large features:
+  `git checkout -b feature/my-feature development`
 - ❌ Never commit directly to `main`
 - ❌ Avoid long-running development branches without merging
 
 ### Commit Hygiene
+
 - ✅ Write clear, descriptive commit messages
 - ✅ Use conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
 - ✅ Keep commits atomic (one logical change per commit)
@@ -225,6 +240,7 @@ git push origin development
 - ❌ Don't use vague messages like "fix stuff" or "update"
 
 ### Pull Requests
+
 - ✅ Create focused PRs (one feature/fix per PR)
 - ✅ Include testing evidence in PR description
 - ✅ Request reviews from appropriate team members
@@ -233,12 +249,15 @@ git push origin development
 - ❌ Don't ignore code review feedback
 
 ### Security
+
 - ✅ Use `.gitignore` to prevent committing sensitive files
 - ✅ Rotate credentials if accidentally committed (use `git-filter-repo`)
-- ✅ Enable branch protection rules on `main` (require PR reviews, status checks)
+- ✅ Enable branch protection rules on `main` (require PR reviews, status
+  checks)
 - ✅ Use GitHub Secrets for CI/CD credentials
 
 ### Synchronization
+
 - ✅ Pull before starting new work
 - ✅ Pull after merges to main
 - ✅ Regularly update feature branches with main/development
@@ -248,26 +267,27 @@ git push origin development
 
 ## Common Git Commands Reference
 
-| Command | Description |
-|---------|-------------|
-| `git status` | Check working tree status |
-| `git branch` | List, create, or delete branches |
-| `git checkout <branch>` | Switch branches (older syntax) |
-| `git switch <branch>` | Switch branches (newer syntax) |
-| `git add <file>` | Stage changes for commit |
-| `git commit -m "message"` | Create a commit |
-| `git push origin <branch>` | Push to remote branch |
-| `git pull origin <branch>` | Fetch and merge from remote |
-| `git merge <branch>` | Merge another branch into current |
-| `gh pr create` | Create pull request via GitHub CLI |
-| `gh pr list` | List pull requests |
-| `gh pr status` | Show status of current PR |
+| Command                    | Description                        |
+| -------------------------- | ---------------------------------- |
+| `git status`               | Check working tree status          |
+| `git branch`               | List, create, or delete branches   |
+| `git checkout <branch>`    | Switch branches (older syntax)     |
+| `git switch <branch>`      | Switch branches (newer syntax)     |
+| `git add <file>`           | Stage changes for commit           |
+| `git commit -m "message"`  | Create a commit                    |
+| `git push origin <branch>` | Push to remote branch              |
+| `git pull origin <branch>` | Fetch and merge from remote        |
+| `git merge <branch>`       | Merge another branch into current  |
+| `gh pr create`             | Create pull request via GitHub CLI |
+| `gh pr list`               | List pull requests                 |
+| `gh pr status`             | Show status of current PR          |
 
 ---
 
 ## Troubleshooting
 
 ### Merge Conflicts
+
 ```bash
 # If you encounter merge conflicts when pulling/merging
 git status  # Identify conflicted files
@@ -277,6 +297,7 @@ git commit  # Complete the merge
 ```
 
 ### Undoing Commits (Before Push)
+
 ```bash
 # Undo last commit, keep changes staged
 git reset --soft HEAD~1
@@ -289,6 +310,7 @@ git reset --hard HEAD~1
 ```
 
 ### Fixing a PR After Push
+
 ```bash
 # Make additional changes
 git add .
@@ -310,7 +332,8 @@ To enforce these best practices, configure branch protection rules on GitHub:
    - ✅ Include administrators (optional)
    - ✅ Restrict pushes to matching branches
 
-This ensures no one can push directly to `main` and all changes go through PR review.
+This ensures no one can push directly to `main` and all changes go through PR
+review.
 
 ---
 

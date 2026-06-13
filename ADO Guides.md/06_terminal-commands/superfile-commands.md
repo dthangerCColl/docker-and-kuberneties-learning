@@ -2,7 +2,9 @@
 
 ## Superfile Workflow Overview
 
-Superfile (spf) is a modern, terminal-based file manager with a powerful TUI, fuzzy navigation, bulk operations, and extensibility. It’s designed for fast keyboard-driven workflows, supporting panels, plugins, and custom hotkeys.
+Superfile (spf) is a modern, terminal-based file manager with a powerful TUI,
+fuzzy navigation, bulk operations, and extensibility. It’s designed for fast
+keyboard-driven workflows, supporting panels, plugins, and custom hotkeys.
 
 Typical Superfile workflow:
 
@@ -206,21 +208,25 @@ esc
 
 ### Plugins
 
-- Enable plugins for metadata, previews, etc. ([see docs](https://superfile.dev/configure/enable-plugin))
+- Enable plugins for metadata, previews, etc.
+  ([see docs](https://superfile.dev/configure/enable-plugin))
 
 ### Configuration
 
-- Edit config file for hotkeys, themes, plugins ([see docs](https://superfile.dev/configure/superfile-config/))
+- Edit config file for hotkeys, themes, plugins
+  ([see docs](https://superfile.dev/configure/superfile-config/))
 - Set editor: `editor = "nano"` in config
 - Set directory editor: `dir_editor = "vi"`
 
 ### Custom Hotkeys
 
-- Customize hotkeys in config ([see docs](https://superfile.dev/configure/custom-hotkeys/))
+- Customize hotkeys in config
+  ([see docs](https://superfile.dev/configure/custom-hotkeys/))
 
 ### Themes
 
-- Change theme in config ([see docs](https://superfile.dev/configure/custom-theme))
+- Change theme in config
+  ([see docs](https://superfile.dev/configure/custom-theme))
 
 ### Environment Variables
 
@@ -232,14 +238,17 @@ esc
 
 ### Common Issues
 
-- **Paste not working**: Some terminals (e.g., Windows Powershell) may intercept `ctrl+v`. Remap paste to another hotkey in config.
-- **Editor errors**: Ensure your editor supports opening files/directories as used by superfile.
+- **Paste not working**: Some terminals (e.g., Windows Powershell) may intercept
+  `ctrl+v`. Remap paste to another hotkey in config.
+- **Editor errors**: Ensure your editor supports opening files/directories as
+  used by superfile.
 - **No output in shell mode**: Shell mode does not show stdout, only exit code.
 - **Plugin not working**: Check plugin installation and config.
 
 ### Best Practices
 
-1. **Learn hotkeys**: Use the [hotkey list](https://superfile.dev/list/hotkey-list/) for reference.
+1. **Learn hotkeys**: Use the
+   [hotkey list](https://superfile.dev/list/hotkey-list/) for reference.
 2. **Use selection mode** for bulk operations.
 3. **Pin frequently used folders** to the sidebar.
 4. **Customize your config** for hotkeys, themes, and plugins.
@@ -247,31 +256,33 @@ esc
 6. **Backup your config** before major changes.
 7. **Use plugins** for enhanced metadata and previews.
 8. **Set your preferred editor** for seamless editing.
-9. **Check the [troubleshooting guide](https://superfile.dev/troubleshooting)** for help.
-10. **Contribute or report issues** on [GitHub](https://github.com/yorukot/superfile).
+9. **Check the [troubleshooting guide](https://superfile.dev/troubleshooting)**
+   for help.
+10. **Contribute or report issues** on
+    [GitHub](https://github.com/yorukot/superfile).
 
 ---
 
 ## Quick Reference Card
 
-| Task | Hotkey/Command |
-|------|---------------|
-| Launch superfile | `spf` |
-| Exit | `q` or `esc` |
-| New file/folder | `ctrl+n` |
-| Rename | `ctrl+r` |
-| Copy/Cut/Paste | `ctrl+c` / `ctrl+x` / `ctrl+v` |
-| Delete | `ctrl+d` |
-| Selection mode | `v` |
-| Select all | `A` |
-| Open with editor | `e` |
-| Open dir with editor | `E` |
-| Search | `/` |
-| Sort | `o` |
-| Pin folder | `P` |
-| Toggle preview | `f` |
-| SPF prompt | `:` or `>` |
-| Next/prev panel | `tab`/`L`/`H` |
+| Task                 | Hotkey/Command                 |
+| -------------------- | ------------------------------ |
+| Launch superfile     | `spf`                          |
+| Exit                 | `q` or `esc`                   |
+| New file/folder      | `ctrl+n`                       |
+| Rename               | `ctrl+r`                       |
+| Copy/Cut/Paste       | `ctrl+c` / `ctrl+x` / `ctrl+v` |
+| Delete               | `ctrl+d`                       |
+| Selection mode       | `v`                            |
+| Select all           | `A`                            |
+| Open with editor     | `e`                            |
+| Open dir with editor | `E`                            |
+| Search               | `/`                            |
+| Sort                 | `o`                            |
+| Pin folder           | `P`                            |
+| Toggle preview       | `f`                            |
+| SPF prompt           | `:` or `>`                     |
+| Next/prev panel      | `tab`/`L`/`H`                  |
 
 ---
 

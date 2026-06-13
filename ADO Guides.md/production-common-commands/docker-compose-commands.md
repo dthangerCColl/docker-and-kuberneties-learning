@@ -2,7 +2,8 @@
 
 ## Docker Workflow Overview
 
-Docker Desktop provides a complete containerization platform with integrated Kubernetes support. The typical Docker workflow follows these stages:
+Docker Desktop provides a complete containerization platform with integrated
+Kubernetes support. The typical Docker workflow follows these stages:
 
 1. **Development**: Create a `Dockerfile` to define your application environment
 2. **Build**: Build Docker images from Dockerfiles
@@ -10,11 +11,14 @@ Docker Desktop provides a complete containerization platform with integrated Kub
 4. **Test**: Verify container functionality
 5. **Push**: Upload images to Docker Hub or private registry
 6. **Deploy**: Deploy to production (locally or with Kubernetes)
-7. **Monitor & Maintain**: Manage running containers, view logs, and clean up resources
+7. **Monitor & Maintain**: Manage running containers, view logs, and clean up
+   resources
 
 ### Docker Desktop & Kubernetes
 
-Docker Desktop includes a single-node Kubernetes cluster for local development. You can enable it in Docker Desktop preferences and use `kubectl` commands alongside Docker commands for orchestration.
+Docker Desktop includes a single-node Kubernetes cluster for local development.
+You can enable it in Docker Desktop preferences and use `kubectl` commands
+alongside Docker commands for orchestration.
 
 ---
 
@@ -242,18 +246,18 @@ kubectl get nodes                   # View cluster nodes
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| List running containers | `docker ps` |
-| List all containers | `docker ps -a` |
-| List images | `docker images` |
-| Build image | `docker build -t name:tag .` |
-| Run container | `docker run -d -p host:container image` |
-| Stop container | `docker stop container_name` |
-| Remove container | `docker rm container_name` |
-| Remove image | `docker rmi image_name` |
-| View logs | `docker logs -f container_name` |
-| Execute command | `docker exec -it container_name bash` |
-| Clean up system | `docker system prune -a` |
-| Start compose | `docker-compose up -d` |
-| Stop compose | `docker-compose down` |
+| Task                    | Command                                 |
+| ----------------------- | --------------------------------------- |
+| List running containers | `docker ps`                             |
+| List all containers     | `docker ps -a`                          |
+| List images             | `docker images`                         |
+| Build image             | `docker build -t name:tag .`            |
+| Run container           | `docker run -d -p host:container image` |
+| Stop container          | `docker stop container_name`            |
+| Remove container        | `docker rm container_name`              |
+| Remove image            | `docker rmi image_name`                 |
+| View logs               | `docker logs -f container_name`         |
+| Execute command         | `docker exec -it container_name bash`   |
+| Clean up system         | `docker system prune -a`                |
+| Start compose           | `docker-compose up -d`                  |
+| Stop compose            | `docker-compose down`                   |

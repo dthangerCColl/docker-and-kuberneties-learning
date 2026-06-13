@@ -1,11 +1,14 @@
 # Demo app - Developing with Docker
 
-A minimal Node.js/Express profile editor with a vanilla JS frontend that persists profile updates to MongoDB. The project is intended for practicing containerization and Compose orchestration.
+A minimal Node.js/Express profile editor with a vanilla JS frontend that
+persists profile updates to MongoDB. The project is intended for practicing
+containerization and Compose orchestration.
 
 ## Repository layout
 
 - `app/server.js` Express server exposing `/get-profile` and `/update-profile`
-- `app/index.html` static profile editor that calls the API and shows a sample avatar from `/profile-picture`
+- `app/index.html` static profile editor that calls the API and shows a sample
+  avatar from `/profile-picture`
 - `app/utils.js` reusable helpers with accompanying tests
 - `Dockerfile` to build the application image
 - `docker-compose.yaml` to run the app with MongoDB and mongo-express
@@ -14,11 +17,13 @@ A minimal Node.js/Express profile editor with a vanilla JS frontend that persist
 
 - Docker and Docker Compose
 - Node.js (18+) and npm if you want to run outside containers
-- A running MongoDB instance (the code defaults to `mongodb://admin:password@localhost:27017` and uses database `my-db`/collection `users`)
+- A running MongoDB instance (the code defaults to
+  `mongodb://admin:password@localhost:27017` and uses database
+  `my-db`/collection `users`)
 
 ## Run locally (without Docker)
 
-1) Start MongoDB locally or via Docker:
+1. Start MongoDB locally or via Docker:
 
 ```sh
 docker run -d -p 27017:27017 \
@@ -27,13 +32,13 @@ docker run -d -p 27017:27017 \
   --name mongodb mongo
 ```
 
-1) (Optional) Point the app at a different Mongo instance:
+1. (Optional) Point the app at a different Mongo instance:
 
 ```sh
 export MONGO_URL="mongodb://<user>:<pass>@<host>:27017"
 ```
 
-1) Install and start the app:
+1. Install and start the app:
 
 ```sh
 cd app
@@ -41,17 +46,18 @@ npm install
 npm start
 ```
 
-1) Open the UI at <http://localhost:3000> and edit the profile. The database and collection are created automatically on first update.
+1. Open the UI at <http://localhost:3000> and edit the profile. The database and
+   collection are created automatically on first update.
 
 ## Run with Docker (manual containers)
 
-1) Create a network (optional but keeps names predictable):
+1. Create a network (optional but keeps names predictable):
 
 ```sh
 docker network create mongo-network
 ```
 
-1) Start MongoDB:
+1. Start MongoDB:
 
 ```sh
 docker run -d -p 27017:27017 \
@@ -60,7 +66,7 @@ docker run -d -p 27017:27017 \
   --name mongodb --net mongo-network mongo
 ```
 
-1) Start mongo-express:
+1. Start mongo-express:
 
 ```sh
 docker run -d -p 8081:8081 \
@@ -70,20 +76,21 @@ docker run -d -p 8081:8081 \
   --net mongo-network --name mongo-express mongo-express
 ```
 
-1) (Optional) Use mongo-express at <http://localhost:8081> to inspect the `my-db` database and `users` collection the app writes to.
+1. (Optional) Use mongo-express at <http://localhost:8081> to inspect the
+   `my-db` database and `users` collection the app writes to.
 
-2) Build and run the Node.js app image:
+2. Build and run the Node.js app image:
 
 ```sh
 docker build -t local/my-app:1.0 .
 docker run -d -p 3000:3000 --net mongo-network -e MONGO_URL="mongodb://admin:password@mongodb:27017" local/my-app:1.0
 ```
 
-1) Open <http://localhost:3000> to use the app.
+1. Open <http://localhost:3000> to use the app.
 
 ## Run with Docker Compose
 
-1) Set environment values used by `docker-compose.yaml`:
+1. Set environment values used by `docker-compose.yaml`:
 
 ```sh
 export MONGO_USERNAME=admin
@@ -91,13 +98,13 @@ export MONGO_PASSWORD=password
 export DOCKER_REGISTRY=local
 ```
 
-1) Build the app image so Compose can pull it locally:
+1. Build the app image so Compose can pull it locally:
 
 ```sh
 docker build -t ${DOCKER_REGISTRY}/my-app:1.0 .
 ```
 
-1) Start the stack:
+1. Start the stack:
 
 ```sh
 docker-compose -f docker-compose.yaml up
@@ -106,7 +113,9 @@ docker-compose -f docker-compose.yaml up
 - App: <http://localhost:3000>
 - mongo-express: <http://localhost:8080> (log in with the values above)
 
-1) In mongo-express, create database `my-db` and collection `users` if you want to browse documents. The app will upsert into them automatically when you submit the form.
+1. In mongo-express, create database `my-db` and collection `users` if you want
+   to browse documents. The app will upsert into them automatically when you
+   submit the form.
 
 ## Tests and linting
 
@@ -130,25 +139,34 @@ npm run lint:md:fix  # Auto-fix markdown issues
 - `POST /update-profile` – save profile data (upserts userid 1)
 - `GET /profile-picture` – serves the demo avatar image
 
-The server reads `MONGO_URL` for the connection string; otherwise it defaults to `mongodb://admin:password@localhost:27017`.
+The server reads `MONGO_URL` for the connection string; otherwise it defaults to
+`mongodb://admin:password@localhost:27017`.
 
 ## Run with Kubernetes (Docker Desktop)
 
-This repository includes Kubernetes manifests under the `k8s/` directory so you can run the same stack (my-app, MongoDB, mongo-express) on a local Kubernetes cluster such as Docker Desktop's built-in Kubernetes.
+This repository includes Kubernetes manifests under the `k8s/` directory so you
+can run the same stack (my-app, MongoDB, mongo-express) on a local Kubernetes
+cluster such as Docker Desktop's built-in Kubernetes.
 
 Files you will find in `k8s/`:
 
-- `mongodb-secret.yaml` – Kubernetes Secret with credentials used by MongoDB, the app, and mongo-express (for learning only; replace for production).
+- `mongodb-secret.yaml` – Kubernetes Secret with credentials used by MongoDB,
+  the app, and mongo-express (for learning only; replace for production).
 - `mongodb-pvc.yaml` – PersistentVolumeClaim for MongoDB data (1Gi request).
-- `mongodb-deployment.yaml` / `mongodb-service.yaml` – Deployment + ClusterIP service for MongoDB.
-- `my-app-deployment.yaml` / `my-app-service.yaml` – Deployment + LoadBalancer service for the Node app.
-- `mongo-express-deployment.yaml` / `mongo-express-service.yaml` – Deployment + LoadBalancer service for the mongo-express UI.
+- `mongodb-deployment.yaml` / `mongodb-service.yaml` – Deployment + ClusterIP
+  service for MongoDB.
+- `my-app-deployment.yaml` / `my-app-service.yaml` – Deployment + LoadBalancer
+  service for the Node app.
+- `mongo-express-deployment.yaml` / `mongo-express-service.yaml` – Deployment +
+  LoadBalancer service for the mongo-express UI.
 
 Quick start (Docker Desktop, single-node cluster):
 
-1) Make sure Kubernetes is enabled in Docker Desktop and `kubectl` is configured for the cluster.
+1. Make sure Kubernetes is enabled in Docker Desktop and `kubectl` is configured
+   for the cluster.
 
-2) Apply the MongoDB manifests (you can run the helper script instead – see below):
+2. Apply the MongoDB manifests (you can run the helper script instead – see
+   below):
 
 ```bash
 kubectl apply -f k8s/mongodb-secret.yaml
@@ -157,7 +175,7 @@ kubectl apply -f k8s/mongodb-deployment.yaml
 kubectl apply -f k8s/mongodb-service.yaml
 ```
 
-1) Build the local app image and deploy the app + UI (helper script provided):
+1. Build the local app image and deploy the app + UI (helper script provided):
 
 ```bash
 # build image and deploy my-app + mongo-express
@@ -165,12 +183,14 @@ chmod +x scripts/deploy-apps.sh
 ./scripts/deploy-apps.sh
 ```
 
-1) The services use `type: LoadBalancer`. On Docker Desktop these are mapped to `localhost` so you can open:
+1. The services use `type: LoadBalancer`. On Docker Desktop these are mapped to
+   `localhost` so you can open:
 
 - App: <http://localhost:3000>
 - mongo-express: <http://localhost:8081>
 
-If the LoadBalancer mapping isn't available for any reason, you can port-forward instead:
+If the LoadBalancer mapping isn't available for any reason, you can port-forward
+instead:
 
 ```bash
 kubectl port-forward svc/my-app 3000:3000
@@ -179,18 +199,31 @@ kubectl port-forward svc/mongo-express 8081:8081
 
 Utility scripts
 
-- `scripts/deploy-mongodb.sh` – convenience script to apply the MongoDB manifests and wait for the pod to become Ready.
-- `scripts/deploy-apps.sh` – builds `local/my-app:1.0`, applies the my-app and mongo-express manifests and waits for readiness.
-- `scripts/smoke-test.sh` – simple smoke tests that verify my-app returns HTTP 200, mongo-express returns 401 without credentials and 200 with credentials (admin:password). Run after deployment to verify basic functionality.
+- `scripts/deploy-mongodb.sh` – convenience script to apply the MongoDB
+  manifests and wait for the pod to become Ready.
+- `scripts/deploy-apps.sh` – builds `local/my-app:1.0`, applies the my-app and
+  mongo-express manifests and waits for readiness.
+- `scripts/smoke-test.sh` – simple smoke tests that verify my-app returns HTTP
+  200, mongo-express returns 401 without credentials and 200 with credentials
+  (admin:password). Run after deployment to verify basic functionality.
 
 Health checks and probes
 
-- `k8s/my-app-deployment.yaml` includes readiness and liveness probes. The readiness probe checks `/get-profile` (so the Pod is only marked Ready when it can reach MongoDB), and the liveness probe checks `/` to ensure the web server responds.
-- `k8s/mongo-express-deployment.yaml` uses exec probes that construct the Basic Auth header at runtime from the Secret-backed environment variables (safer than embedding base64 in the manifest).
+- `k8s/my-app-deployment.yaml` includes readiness and liveness probes. The
+  readiness probe checks `/get-profile` (so the Pod is only marked Ready when it
+  can reach MongoDB), and the liveness probe checks `/` to ensure the web server
+  responds.
+- `k8s/mongo-express-deployment.yaml` uses exec probes that construct the Basic
+  Auth header at runtime from the Secret-backed environment variables (safer
+  than embedding base64 in the manifest).
 
 Security notes
 
-- The manifests and scripts in this repo are intended for local learning. They use a plaintext Kubernetes Secret and the `admin:password` credentials for convenience. For any non-local or production use, replace these with stronger credentials and use a secure secrets mechanism (sealed-secrets, HashiCorp Vault, cloud KMS, etc.).
+- The manifests and scripts in this repo are intended for local learning. They
+  use a plaintext Kubernetes Secret and the `admin:password` credentials for
+  convenience. For any non-local or production use, replace these with stronger
+  credentials and use a secure secrets mechanism (sealed-secrets, HashiCorp
+  Vault, cloud KMS, etc.).
 
 Troubleshooting
 
@@ -198,7 +231,8 @@ Troubleshooting
   - `kubectl get pods -o wide`
   - `kubectl describe pod <pod-name>`
   - `kubectl logs <pod-name>`
-- If PVC is `Pending`, ensure your cluster has a default StorageClass (Docker Desktop provides `hostpath` by default).
+- If PVC is `Pending`, ensure your cluster has a default StorageClass (Docker
+  Desktop provides `hostpath` by default).
 
 ## Teardown
 
@@ -212,7 +246,9 @@ Stop containers, remove them, and delete the `mongo-data` volume:
 docker-compose -f docker-compose.yaml down -v
 ```
 
-The `-v` flag removes the named volume (`mongo-data`) that stored MongoDB data. Without it, the volume persists and data is reused on the next `docker-compose up`.
+The `-v` flag removes the named volume (`mongo-data`) that stored MongoDB data.
+Without it, the volume persists and data is reused on the next
+`docker-compose up`.
 
 ### Manual Docker containers
 
@@ -283,7 +319,10 @@ docker system prune
 docker system prune -a --volumes
 ```
 
-> **Warning:** `docker volume prune` and `docker system prune -a --volumes` are **not project-scoped** — they remove unused resources from all Docker projects on your machine. Use them only if you want a completely clean Docker environment.
+> **Warning:** `docker volume prune` and `docker system prune -a --volumes` are
+> **not project-scoped** — they remove unused resources from all Docker projects
+> on your machine. Use them only if you want a completely clean Docker
+> environment.
 
 ### Disable Kubernetes in Docker Desktop
 
@@ -294,7 +333,8 @@ If you only used Kubernetes for this project and want to free resources:
 3. Click **Apply & Restart**
 4. Wait for Docker Desktop to restart
 
-This removes the single-node Kubernetes cluster and all resources in it. Docker containers (Compose and manual) are unaffected.
+This removes the single-node Kubernetes cluster and all resources in it. Docker
+containers (Compose and manual) are unaffected.
 
 **To re-enable for other projects:**
 
@@ -310,4 +350,5 @@ kubectl cluster-info
 kubectl get nodes
 ```
 
-> **Note:** Re-enabling Kubernetes does not restore previously deleted resources. You must re-apply any `k8s/` manifests you need.
+> **Note:** Re-enabling Kubernetes does not restore previously deleted
+> resources. You must re-apply any `k8s/` manifests you need.

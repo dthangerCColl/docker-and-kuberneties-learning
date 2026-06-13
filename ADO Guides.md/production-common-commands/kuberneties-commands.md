@@ -2,9 +2,12 @@
 
 ## Kubernetes Workflow Overview
 
-Kubernetes (K8s) is an open-source container orchestration platform that automates deployment, scaling, and management of containerized applications. The typical Kubernetes workflow follows these stages:
+Kubernetes (K8s) is an open-source container orchestration platform that
+automates deployment, scaling, and management of containerized applications. The
+typical Kubernetes workflow follows these stages:
 
-1. **Define**: Create YAML manifests for Deployments, Services, ConfigMaps, and other resources
+1. **Define**: Create YAML manifests for Deployments, Services, ConfigMaps, and
+   other resources
 2. **Apply**: Deploy resources to the Kubernetes cluster
 3. **Monitor**: Check pod status, logs, and resource usage
 4. **Scale**: Adjust the number of pod replicas based on demand
@@ -14,7 +17,9 @@ Kubernetes (K8s) is an open-source container orchestration platform that automat
 
 ### Kubernetes with Docker Desktop
 
-Docker Desktop includes a single-node Kubernetes cluster for local development. Enable it in Settings > Kubernetes. This provides a local K8s environment perfect for testing deployments before pushing to production clusters.
+Docker Desktop includes a single-node Kubernetes cluster for local development.
+Enable it in Settings > Kubernetes. This provides a local K8s environment
+perfect for testing deployments before pushing to production clusters.
 
 ---
 
@@ -291,29 +296,29 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.21
-        ports:
-        - containerPort: 80
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-          requests:
-            cpu: "250m"
-            memory: "256Mi"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: nginx
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
 ```
 
 ### Service Types
@@ -329,9 +334,9 @@ spec:
   selector:
     app: nginx
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
 
 ---
 # NodePort (external access via node IP)
@@ -344,10 +349,10 @@ spec:
   selector:
     app: nginx
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 30080  # Optional: K8s assigns if not specified
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080 # Optional: K8s assigns if not specified
 
 ---
 # LoadBalancer (cloud load balancer)
@@ -360,9 +365,9 @@ spec:
   selector:
     app: nginx
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
 ```
 
 ### ConfigMap & Secret
@@ -390,8 +395,8 @@ metadata:
   name: app-secret
 type: Opaque
 data:
-  username: YWRtaW4=        # base64 encoded
-  password: cGFzc3dvcmQ=    # base64 encoded
+  username: YWRtaW4= # base64 encoded
+  password: cGFzc3dvcmQ= # base64 encoded
 ```
 
 ### StatefulSet
@@ -413,21 +418,21 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:15
-        ports:
-        - containerPort: 5432
-        volumeMounts:
-        - name: data
-          mountPath: /var/lib/postgresql/data
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
 ```
 
 ### Job & CronJob
@@ -442,9 +447,9 @@ spec:
   template:
     spec:
       containers:
-      - name: migrate
-        image: myapp/migrator:v1
-        command: ["./migrate.sh"]
+        - name: migrate
+          image: myapp/migrator:v1
+          command: ["./migrate.sh"]
       restartPolicy: OnFailure
   backoffLimit: 4
 
@@ -455,15 +460,15 @@ kind: CronJob
 metadata:
   name: backup-job
 spec:
-  schedule: "0 2 * * *"  # Daily at 2 AM
+  schedule: "0 2 * * *" # Daily at 2 AM
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: backup
-            image: myapp/backup:v1
-            command: ["./backup.sh"]
+            - name: backup
+              image: myapp/backup:v1
+              command: ["./backup.sh"]
           restartPolicy: OnFailure
 ```
 
@@ -506,21 +511,23 @@ kubectl config current-context  # Should show "docker-desktop"
 3. **Health checks**: Define liveness and readiness probes for all services
 4. **Labels**: Use consistent labeling for organization and selection
 5. **Version control**: Store all manifests in git
-6. **Secrets management**: Never commit secrets to git, use Secret resources or external vaults
+6. **Secrets management**: Never commit secrets to git, use Secret resources or
+   external vaults
 7. **Rolling updates**: Use Deployments for zero-downtime updates
 8. **ConfigMaps**: Separate configuration from application code
 9. **RBAC**: Implement Role-Based Access Control for security
-10. **Monitoring**: Use kubectl top and integrate with monitoring tools (Prometheus, Grafana)
+10. **Monitoring**: Use kubectl top and integrate with monitoring tools
+    (Prometheus, Grafana)
 
 ### Resource Requests vs Limits
 
 ```yaml
 resources:
   requests:
-    cpu: "250m"      # Minimum guaranteed
+    cpu: "250m" # Minimum guaranteed
     memory: "256Mi"
   limits:
-    cpu: "500m"      # Maximum allowed
+    cpu: "500m" # Maximum allowed
     memory: "512Mi"
 ```
 
@@ -539,35 +546,35 @@ spec:
   minReplicas: 2
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
 ```
 
 ---
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| List pods | `kubectl get pods` |
-| Pod details | `kubectl describe pod pod_name` |
-| Pod logs | `kubectl logs -f pod_name` |
-| Execute in pod | `kubectl exec -it pod_name -- bash` |
-| Apply config | `kubectl apply -f file.yaml` |
-| Delete resource | `kubectl delete -f file.yaml` |
-| Scale deployment | `kubectl scale deployment name --replicas=3` |
-| Rollout status | `kubectl rollout status deployment/name` |
-| Rollback | `kubectl rollout undo deployment/name` |
-| Port forward | `kubectl port-forward pod_name 8080:80` |
-| View events | `kubectl get events --sort-by=.metadata.creationTimestamp` |
-| Resource usage | `kubectl top pods` |
-| Edit resource | `kubectl edit deployment name` |
-| Get all resources | `kubectl get all -A` |
-| Create namespace | `kubectl create namespace dev` |
+| Task              | Command                                                    |
+| ----------------- | ---------------------------------------------------------- |
+| List pods         | `kubectl get pods`                                         |
+| Pod details       | `kubectl describe pod pod_name`                            |
+| Pod logs          | `kubectl logs -f pod_name`                                 |
+| Execute in pod    | `kubectl exec -it pod_name -- bash`                        |
+| Apply config      | `kubectl apply -f file.yaml`                               |
+| Delete resource   | `kubectl delete -f file.yaml`                              |
+| Scale deployment  | `kubectl scale deployment name --replicas=3`               |
+| Rollout status    | `kubectl rollout status deployment/name`                   |
+| Rollback          | `kubectl rollout undo deployment/name`                     |
+| Port forward      | `kubectl port-forward pod_name 8080:80`                    |
+| View events       | `kubectl get events --sort-by=.metadata.creationTimestamp` |
+| Resource usage    | `kubectl top pods`                                         |
+| Edit resource     | `kubectl edit deployment name`                             |
+| Get all resources | `kubectl get all -A`                                       |
+| Create namespace  | `kubectl create namespace dev`                             |
 
 ---
 
@@ -676,8 +683,9 @@ kubectl apply -f .
 ### Manual Conversion Example
 
 Docker Compose:
+
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   web:
     image: nginx
@@ -705,13 +713,13 @@ spec:
         app: web
     spec:
       containers:
-      - name: web
-        image: nginx
-        ports:
-        - containerPort: 80
-        env:
-        - name: ENV
-          value: "production"
+        - name: web
+          image: nginx
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENV
+              value: "production"
 
 ---
 apiVersion: v1
@@ -723,8 +731,8 @@ spec:
   selector:
     app: web
   ports:
-  - port: 8080
-    targetPort: 80
+    - port: 8080
+      targetPort: 80
 ```
 
 ---
@@ -783,7 +791,8 @@ stern --namespace dev .   # Tail all pods in namespace
 
 - **Pod**: Smallest deployable unit, contains one or more containers
 - **Deployment**: Manages ReplicaSets and provides declarative updates
-- **Service**: Exposes pods to network traffic (ClusterIP, NodePort, LoadBalancer)
+- **Service**: Exposes pods to network traffic (ClusterIP, NodePort,
+  LoadBalancer)
 - **ConfigMap**: Store non-sensitive configuration data
 - **Secret**: Store sensitive data like passwords and API keys
 - **Namespace**: Virtual clusters for resource isolation

@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#app/node_modules\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules\" \"#app/node_modules\""
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules\" \"#app/node_modules\"",
+    "format": "prettier --write \"**/*.md\" \"!node_modules\" \"!app/node_modules\"",
+    "format:check": "prettier --check \"**/*.md\" \"!node_modules\" \"!app/node_modules\""
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   },
   "homepage": "https://github.com/dthangerCColl/developing-with-docker#readme",
   "devDependencies": {
-    "markdownlint-cli2": "^0.19.1"
+    "markdownlint-cli2": "^0.19.1",
+    "prettier": "^3.8.4"
   }
 }

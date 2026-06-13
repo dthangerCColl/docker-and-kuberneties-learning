@@ -1,6 +1,7 @@
 # Basic Testing & CI/CD Pipeline Guide
 
-A step-by-step guide to setting up testing and GitHub Actions CI/CD for a Node.js + Express + MongoDB application.
+A step-by-step guide to setting up testing and GitHub Actions CI/CD for a
+Node.js + Express + MongoDB application.
 
 ---
 
@@ -27,7 +28,7 @@ This guide covers:
 
 ### What is ESLint?
 
-ESLint analyzes your JavaScript code *without running it* and catches:
+ESLint analyzes your JavaScript code _without running it_ and catches:
 
 - Syntax errors
 - Undefined variables
@@ -76,17 +77,17 @@ module.exports = [
         afterEach: "readonly",
         beforeAll: "readonly",
         afterAll: "readonly",
-        jest: "readonly"
-      }
+        jest: "readonly",
+      },
     },
     rules: {
       "no-unused-vars": "warn",
       "no-undef": "error",
       "no-console": "off",
-      "semi": ["warn", "always"],
-      "eqeqeq": "warn"
-    }
-  }
+      semi: ["warn", "always"],
+      eqeqeq: "warn",
+    },
+  },
 ];
 ```
 
@@ -104,7 +105,8 @@ npm run lint
 
 ### What is Jest?
 
-Jest is a testing framework that lets you write tests to verify your code works correctly.
+Jest is a testing framework that lets you write tests to verify your code works
+correctly.
 
 ### Step 1: Update package.json for Jest
 
@@ -127,21 +129,21 @@ Create `app/utils.js` with pure functions that can be tested:
 function validateUser(user) {
   const errors = [];
   if (!user) {
-    return { valid: false, errors: ['User object is required'] };
+    return {valid: false, errors: ["User object is required"]};
   }
-  if (!user.name || typeof user.name !== 'string') {
-    errors.push('Name is required and must be a string');
+  if (!user.name || typeof user.name !== "string") {
+    errors.push("Name is required and must be a string");
   }
-  if (!user.email || typeof user.email !== 'string') {
-    errors.push('Email is required and must be a string');
+  if (!user.email || typeof user.email !== "string") {
+    errors.push("Email is required and must be a string");
   }
-  if (user.email && !user.email.includes('@')) {
-    errors.push('Email must be valid');
+  if (user.email && !user.email.includes("@")) {
+    errors.push("Email must be valid");
   }
-  return { valid: errors.length === 0, errors: errors };
+  return {valid: errors.length === 0, errors: errors};
 }
 
-module.exports = { validateUser };
+module.exports = {validateUser};
 ```
 
 ### Step 3: Create Test File
@@ -149,17 +151,17 @@ module.exports = { validateUser };
 Create `app/utils.test.js`:
 
 ```javascript
-const { validateUser } = require('./utils');
+const {validateUser} = require("./utils");
 
-describe('validateUser', () => {
-  test('returns invalid when user is null', () => {
+describe("validateUser", () => {
+  test("returns invalid when user is null", () => {
     const result = validateUser(null);
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('User object is required');
+    expect(result.errors).toContain("User object is required");
   });
 
-  test('returns valid for correct user object', () => {
-    const result = validateUser({ name: 'John', email: 'john@example.com' });
+  test("returns valid for correct user object", () => {
+    const result = validateUser({name: "John", email: "john@example.com"});
     expect(result.valid).toBe(true);
     expect(result.errors).toHaveLength(0);
   });
@@ -211,30 +213,30 @@ module.exports = app;
 Create `app/server.integration.test.js`:
 
 ```javascript
-const request = require('supertest');
-const app = require('./server');
+const request = require("supertest");
+const app = require("./server");
 
 // Increase timeout for integration tests
 jest.setTimeout(30000);
 
-describe('API Integration Tests', () => {
-  describe('GET /', () => {
-    test('should return 200 and HTML content', async () => {
-      const response = await request(app).get('/');
+describe("API Integration Tests", () => {
+  describe("GET /", () => {
+    test("should return 200 and HTML content", async () => {
+      const response = await request(app).get("/");
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toMatch(/html/);
+      expect(response.headers["content-type"]).toMatch(/html/);
     });
   });
 
-  describe('POST /update-profile', () => {
-    test('should accept profile data and return it', async () => {
-      const profileData = { name: 'Test User', email: 'test@example.com' };
+  describe("POST /update-profile", () => {
+    test("should accept profile data and return it", async () => {
+      const profileData = {name: "Test User", email: "test@example.com"};
       const response = await request(app)
-        .post('/update-profile')
+        .post("/update-profile")
         .send(profileData)
-        .set('Content-Type', 'application/json');
+        .set("Content-Type", "application/json");
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Test User');
+      expect(response.body.name).toBe("Test User");
     });
   });
 });
@@ -253,7 +255,8 @@ npm test                # Run tests
 
 ### What is GitHub Actions?
 
-GitHub's built-in CI/CD system that runs workflows automatically on push/PR events.
+GitHub's built-in CI/CD system that runs workflows automatically on push/PR
+events.
 
 ### Step 1: Create Workflow Directory
 
@@ -287,10 +290,9 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: admin
           MONGO_INITDB_ROOT_PASSWORD: password
         options: >-
-          --health-cmd "mongosh -u admin -p password --authenticationDatabase admin --eval 'db.runCommand({ping:1})' --quiet"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd "mongosh -u admin -p password --authenticationDatabase
+          admin --eval 'db.runCommand({ping:1})' --quiet" --health-interval 10s
+          --health-timeout 5s --health-retries 5
 
     env:
       MONGO_URL: mongodb://admin:password@localhost:27017
@@ -315,8 +317,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
           cache-dependency-path: app/package-lock.json
 
       - name: Install dependencies
@@ -376,14 +378,14 @@ git push origin dev
 
 ### Useful Git Commands
 
-| Command | Purpose |
-| ------- | ------- |
-| `git status` | See changed files |
-| `git diff` | See line changes (press `q` to exit) |
-| `git add .` | Stage all changes |
-| `git commit -m "msg"` | Commit with message |
-| `git push origin <branch>` | Push to remote |
-| `git log --oneline -5` | See recent commits |
+| Command                    | Purpose                              |
+| -------------------------- | ------------------------------------ |
+| `git status`               | See changed files                    |
+| `git diff`                 | See line changes (press `q` to exit) |
+| `git add .`                | Stage all changes                    |
+| `git commit -m "msg"`      | Commit with message                  |
+| `git push origin <branch>` | Push to remote                       |
+| `git log --oneline -5`     | See recent commits                   |
 
 ---
 
@@ -500,14 +502,14 @@ Add Jest globals to `eslint.config.js` globals section.
 
 ## Key Concepts Summary
 
-| Term | Meaning |
-| ---- | ------- |
-| **Linting** | Static code analysis (finds bugs without running code) |
-| **Unit Tests** | Test individual functions in isolation |
-| **Integration Tests** | Test components working together |
-| **CI/CD** | Continuous Integration/Continuous Deployment |
-| **Service Container** | Docker container spun up for tests (e.g., MongoDB) |
-| **Health Check** | Verifies service is ready before tests run |
+| Term                  | Meaning                                                |
+| --------------------- | ------------------------------------------------------ |
+| **Linting**           | Static code analysis (finds bugs without running code) |
+| **Unit Tests**        | Test individual functions in isolation                 |
+| **Integration Tests** | Test components working together                       |
+| **CI/CD**             | Continuous Integration/Continuous Deployment           |
+| **Service Container** | Docker container spun up for tests (e.g., MongoDB)     |
+| **Health Check**      | Verifies service is ready before tests run             |
 
 ---
 

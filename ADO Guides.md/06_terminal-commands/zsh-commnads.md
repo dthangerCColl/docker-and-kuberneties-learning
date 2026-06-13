@@ -2,11 +2,14 @@
 
 ## Zsh Workflow Overview
 
-Zsh (Z Shell) is a powerful Unix shell that extends the Bourne shell with numerous improvements, including better tab completion, advanced globbing, plugins, and themes. The typical Zsh workflow follows these stages:
+Zsh (Z Shell) is a powerful Unix shell that extends the Bourne shell with
+numerous improvements, including better tab completion, advanced globbing,
+plugins, and themes. The typical Zsh workflow follows these stages:
 
 1. **Install**: Set up Zsh as your default shell
 2. **Configure**: Create and customize your `.zshrc` configuration file
-3. **Enhance**: Install frameworks like Oh My Zsh or plugins for additional functionality
+3. **Enhance**: Install frameworks like Oh My Zsh or plugins for additional
+   functionality
 4. **Customize**: Add aliases, functions, and environment variables
 5. **Optimize**: Configure completion systems and prompt themes
 6. **Extend**: Add plugins for git, syntax highlighting, autosuggestions
@@ -14,7 +17,10 @@ Zsh (Z Shell) is a powerful Unix shell that extends the Bourne shell with numero
 
 ### Zsh with Oh My Zsh
 
-Oh My Zsh is a popular framework for managing Zsh configuration. It comes with hundreds of plugins and themes, making it easy to customize your shell experience. Powerlevel10k is a highly customizable theme that provides a beautiful and informative prompt.
+Oh My Zsh is a popular framework for managing Zsh configuration. It comes with
+hundreds of plugins and themes, making it easy to customize your shell
+experience. Powerlevel10k is a highly customizable theme that provides a
+beautiful and informative prompt.
 
 ---
 
@@ -648,7 +654,8 @@ plugins=(... zsh-autosuggestions zsh-syntax-highlighting)
 
 ## Best Practices
 
-1. **Modular configuration**: Split `.zshrc` into multiple files for easier management
+1. **Modular configuration**: Split `.zshrc` into multiple files for easier
+   management
 2. **Version control**: Keep your dotfiles in git (exclude sensitive data)
 3. **Comments**: Document your configuration for future reference
 4. **Performance**: Lazy-load heavy tools and use caching for completions
@@ -707,24 +714,24 @@ git push -u origin main
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| Reload config | `source ~/.zshrc` |
-| Edit config | `vim ~/.zshrc` |
-| Show aliases | `alias` |
-| Create alias | `alias name='command'` |
-| Show history | `history` |
-| Search history | `Ctrl+R` |
-| Last command | `!!` |
-| Last argument | `!$` |
-| List files recursively | `ls **/*.txt` |
-| Rename files | `zmv '*.txt' '*.md'` |
-| Show directory stack | `dirs -v` |
-| Jump to directory | `cd ~3` |
-| Background job | `command &` |
-| List jobs | `jobs` |
-| Bring to foreground | `fg %1` |
-| Tab completion | `<TAB>` |
+| Task                   | Command                |
+| ---------------------- | ---------------------- |
+| Reload config          | `source ~/.zshrc`      |
+| Edit config            | `vim ~/.zshrc`         |
+| Show aliases           | `alias`                |
+| Create alias           | `alias name='command'` |
+| Show history           | `history`              |
+| Search history         | `Ctrl+R`               |
+| Last command           | `!!`                   |
+| Last argument          | `!$`                   |
+| List files recursively | `ls **/*.txt`          |
+| Rename files           | `zmv '*.txt' '*.md'`   |
+| Show directory stack   | `dirs -v`              |
+| Jump to directory      | `cd ~3`                |
+| Background job         | `command &`            |
+| List jobs              | `jobs`                 |
+| Bring to foreground    | `fg %1`                |
+| Tab completion         | `<TAB>`                |
 
 ---
 
@@ -974,16 +981,16 @@ alias cat='bat'
 
 ## Zsh vs Bash Differences
 
-| Feature | Zsh | Bash |
-|---------|-----|------|
-| Array indexing | 1-based | 0-based |
-| Extended globbing | Built-in | Requires shopt |
-| Right prompt | Yes | No |
-| Spelling correction | Yes | Limited |
-| Theme support | Extensive | Basic |
-| Plugin system | Oh My Zsh, etc. | Limited |
-| Tab completion | Advanced | Basic |
-| Substring search | Built-in | Requires setup |
+| Feature             | Zsh             | Bash           |
+| ------------------- | --------------- | -------------- |
+| Array indexing      | 1-based         | 0-based        |
+| Extended globbing   | Built-in        | Requires shopt |
+| Right prompt        | Yes             | No             |
+| Spelling correction | Yes             | Limited        |
+| Theme support       | Extensive       | Basic          |
+| Plugin system       | Oh My Zsh, etc. | Limited        |
+| Tab completion      | Advanced        | Basic          |
+| Substring search    | Built-in        | Requires setup |
 
 ---
 
@@ -1061,18 +1068,18 @@ fi
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+A` | Move to beginning of line |
-| `Ctrl+E` | Move to end of line |
+| Shortcut | Action                          |
+| -------- | ------------------------------- |
+| `Ctrl+A` | Move to beginning of line       |
+| `Ctrl+E` | Move to end of line             |
 | `Ctrl+U` | Delete from cursor to beginning |
-| `Ctrl+K` | Delete from cursor to end |
-| `Ctrl+W` | Delete word before cursor |
-| `Ctrl+R` | Reverse history search |
-| `Ctrl+L` | Clear screen |
-| `Ctrl+Z` | Suspend current process |
-| `Ctrl+C` | Kill current process |
-| `Ctrl+D` | Exit shell (if line empty) |
-| `Alt+.` | Insert last argument |
-| `Alt+B` | Move back one word |
-| `Alt+F` | Move forward one word |
+| `Ctrl+K` | Delete from cursor to end       |
+| `Ctrl+W` | Delete word before cursor       |
+| `Ctrl+R` | Reverse history search          |
+| `Ctrl+L` | Clear screen                    |
+| `Ctrl+Z` | Suspend current process         |
+| `Ctrl+C` | Kill current process            |
+| `Ctrl+D` | Exit shell (if line empty)      |
+| `Alt+.`  | Insert last argument            |
+| `Alt+B`  | Move back one word              |
+| `Alt+F`  | Move forward one word           |

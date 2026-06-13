@@ -2,20 +2,26 @@
 
 ## Azure DevOps Workflow Overview
 
-Azure provides a complete suite of tools for managing modern cloud applications in a DevOps environment. The typical Azure DevOps workflow follows these stages:
+Azure provides a complete suite of tools for managing modern cloud applications
+in a DevOps environment. The typical Azure DevOps workflow follows these stages:
 
 1. **Setup**: Configure Azure CLI, authenticate, and set up subscriptions
-2. **Infrastructure**: Provision resources using Azure CLI or Infrastructure as Code (IaC)
-3. **Development**: Build and test applications locally or in Azure DevOps Pipelines
-4. **Container Management**: Build, push, and manage container images in Azure Container Registry
+2. **Infrastructure**: Provision resources using Azure CLI or Infrastructure as
+   Code (IaC)
+3. **Development**: Build and test applications locally or in Azure DevOps
+   Pipelines
+4. **Container Management**: Build, push, and manage container images in Azure
+   Container Registry
 5. **Deployment**: Deploy to Azure App Service, AKS, or Container Instances
 6. **CI/CD**: Automate with Azure DevOps Pipelines or GitHub Actions
-7. **Monitor**: Track application performance and logs with Azure Monitor and Application Insights
+7. **Monitor**: Track application performance and logs with Azure Monitor and
+   Application Insights
 8. **Scale & Optimize**: Adjust resources based on demand and cost optimization
 
 ### Azure Services for DevOps
 
-- **Azure DevOps**: Complete DevOps toolchain (Repos, Pipelines, Boards, Artifacts)
+- **Azure DevOps**: Complete DevOps toolchain (Repos, Pipelines, Boards,
+  Artifacts)
 - **Azure Container Registry (ACR)**: Private Docker registry
 - **Azure Kubernetes Service (AKS)**: Managed Kubernetes clusters
 - **Azure App Service**: PaaS for web apps and APIs
@@ -717,53 +723,53 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 variables:
-  dockerRegistryServiceConnection: 'myACRConnection'
-  imageRepository: 'myapp'
-  containerRegistry: 'myregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
+  dockerRegistryServiceConnection: "myACRConnection"
+  imageRepository: "myapp"
+  containerRegistry: "myregistry.azurecr.io"
+  dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
+  tag: "$(Build.BuildId)"
 
 stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build job
-    steps:
-    - task: Docker@2
-      displayName: Build and push image to ACR
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-          latest
-
-- stage: Deploy
-  displayName: Deploy to AKS
-  dependsOn: Build
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    environment: 'production'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
+  - stage: Build
+    displayName: Build and push stage
+    jobs:
+      - job: Build
+        displayName: Build job
+        steps:
+          - task: Docker@2
+            displayName: Build and push image to ACR
             inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+                latest
+
+  - stage: Deploy
+    displayName: Deploy to AKS
+    dependsOn: Build
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy job
+        environment: "production"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: KubernetesManifest@0
+                  displayName: Deploy to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment.yml
+                      $(Pipeline.Workspace)/manifests/service.yml
+                    containers: |
+                      $(containerRegistry)/$(imageRepository):$(tag)
 ```
 
 ### GitHub Actions Workflow
@@ -773,74 +779,81 @@ name: Build and Deploy to Azure
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 env:
   AZURE_WEBAPP_NAME: mywebapp
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
-  NODE_VERSION: '18.x'
+  AZURE_WEBAPP_PACKAGE_PATH: "."
+  NODE_VERSION: "18.x"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.NODE_VERSION }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: npm install and build
-      run: |
-        npm install
-        npm run build --if-present
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build --if-present
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: node-app
-        path: .
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-app
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: "production"
       url: ${{ steps.deploy.outputs.webapp-url }}
 
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: node-app
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: node-app
 
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy to Azure Web App
-      id: deploy
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Deploy to Azure Web App
+        id: deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 ```
 
 ---
 
 ## Best Practices for Azure DevOps
 
-1. **Use Service Principals**: Create service principals for automated deployments, not personal accounts
-2. **Resource Groups**: Organize resources by environment (dev, staging, prod) or application
-3. **Naming Conventions**: Use consistent naming (e.g., `{app}-{env}-{resource}`)
+1. **Use Service Principals**: Create service principals for automated
+   deployments, not personal accounts
+2. **Resource Groups**: Organize resources by environment (dev, staging, prod)
+   or application
+3. **Naming Conventions**: Use consistent naming (e.g.,
+   `{app}-{env}-{resource}`)
 4. **Tags**: Tag all resources for cost tracking and organization
 5. **Key Vault**: Store all secrets in Azure Key Vault, never in code
-6. **Managed Identities**: Use managed identities instead of connection strings when possible
-7. **Infrastructure as Code**: Use ARM, Bicep, or Terraform for all infrastructure
-8. **Cost Management**: Set budgets and alerts, use auto-shutdown for non-prod VMs
-9. **Monitoring**: Enable Application Insights and Azure Monitor for all services
+6. **Managed Identities**: Use managed identities instead of connection strings
+   when possible
+7. **Infrastructure as Code**: Use ARM, Bicep, or Terraform for all
+   infrastructure
+8. **Cost Management**: Set budgets and alerts, use auto-shutdown for non-prod
+   VMs
+9. **Monitoring**: Enable Application Insights and Azure Monitor for all
+   services
 10. **RBAC**: Use Role-Based Access Control, follow principle of least privilege
 11. **Backup**: Enable backup for critical resources (databases, storage)
 12. **Network Security**: Use NSGs, private endpoints, and VNets appropriately
@@ -882,22 +895,22 @@ az resource list --tag Environment=Production
 
 ## Quick Reference Card
 
-| Task | Command |
-|------|---------|
-| Login | `az login` |
-| List subscriptions | `az account list --output table` |
-| Create resource group | `az group create --name rg --location eastus` |
-| Create ACR | `az acr create --name registry --resource-group rg --sku Basic` |
-| Build & push to ACR | `az acr build --registry registry --image app:v1 .` |
-| Create AKS cluster | `az aks create --resource-group rg --name aks --node-count 2` |
-| Get AKS credentials | `az aks get-credentials --resource-group rg --name aks` |
-| Create web app | `az webapp create --resource-group rg --plan plan --name app` |
-| Create Key Vault | `az keyvault create --name kv --resource-group rg` |
-| Set secret | `az keyvault secret set --vault-name kv --name key --value val` |
-| Run pipeline | `az pipelines run --name "Pipeline"` |
-| Create PR | `az repos pr create --repository repo --source-branch feature` |
-| Deploy ARM template | `az deployment group create --resource-group rg --template-file template.json` |
-| View activity logs | `az monitor activity-log list --resource-group rg` |
+| Task                  | Command                                                                        |
+| --------------------- | ------------------------------------------------------------------------------ |
+| Login                 | `az login`                                                                     |
+| List subscriptions    | `az account list --output table`                                               |
+| Create resource group | `az group create --name rg --location eastus`                                  |
+| Create ACR            | `az acr create --name registry --resource-group rg --sku Basic`                |
+| Build & push to ACR   | `az acr build --registry registry --image app:v1 .`                            |
+| Create AKS cluster    | `az aks create --resource-group rg --name aks --node-count 2`                  |
+| Get AKS credentials   | `az aks get-credentials --resource-group rg --name aks`                        |
+| Create web app        | `az webapp create --resource-group rg --plan plan --name app`                  |
+| Create Key Vault      | `az keyvault create --name kv --resource-group rg`                             |
+| Set secret            | `az keyvault secret set --vault-name kv --name key --value val`                |
+| Run pipeline          | `az pipelines run --name "Pipeline"`                                           |
+| Create PR             | `az repos pr create --repository repo --source-branch feature`                 |
+| Deploy ARM template   | `az deployment group create --resource-group rg --template-file template.json` |
+| View activity logs    | `az monitor activity-log list --resource-group rg`                             |
 
 ---
 
@@ -1034,7 +1047,9 @@ az consumption budget create --budget-name MyBudget --amount 1000 \
 
 - **Azure CLI Docs**: <https://docs.microsoft.com/cli/azure/>
 - **Azure DevOps Docs**: <https://docs.microsoft.com/azure/devops/>
-- **Azure Architecture Center**: <https://docs.microsoft.com/azure/architecture/>
-- **Azure Pricing Calculator**: <https://azure.microsoft.com/pricing/calculator/>
+- **Azure Architecture Center**:
+  <https://docs.microsoft.com/azure/architecture/>
+- **Azure Pricing Calculator**:
+  <https://azure.microsoft.com/pricing/calculator/>
 - **Azure Status**: <https://status.azure.com/>
 - **Azure Updates**: <https://azure.microsoft.com/updates/>

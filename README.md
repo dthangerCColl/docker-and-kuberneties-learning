@@ -12,6 +12,10 @@ containerization and Compose orchestration.
 - `app/utils.js` reusable helpers with accompanying tests
 - `Dockerfile` to build the application image
 - `docker-compose.yaml` to run the app with MongoDB and mongo-express
+- `docker-compose.init.js` MongoDB init script (creates `app_user` on first
+  boot)
+- `k8s/` Kubernetes manifests for deployment
+- `scripts/` helper scripts for deploying and testing
 
 ## Prerequisites
 
@@ -90,18 +94,10 @@ docker run -d -p 3000:3000 --net mongo-network -e MONGO_URL="mongodb://admin:pas
 
 ## Run with Docker Compose
 
-1. Set environment values used by `docker-compose.yaml`:
-
-```sh
-export MONGO_USERNAME=admin
-export MONGO_PASSWORD=password
-export DOCKER_REGISTRY=local
-```
-
 1. Build the app image so Compose can pull it locally:
 
 ```sh
-docker build -t ${DOCKER_REGISTRY}/my-app:1.0 .
+docker build -t local/my-app:1.0 .
 ```
 
 1. Start the stack:
@@ -111,11 +107,15 @@ docker-compose -f docker-compose.yaml up
 ```
 
 - App: <http://localhost:3000>
-- mongo-express: <http://localhost:8080> (log in with the values above)
+- mongo-express: <http://localhost:8080> (log in with admin:password from
+  `.env`)
 
-1. In mongo-express, create database `my-db` and collection `users` if you want
-   to browse documents. The app will upsert into them automatically when you
-   submit the form.
+> **Note:** Environment variables (`MONGO_USERNAME`, `MONGO_PASSWORD`,
+> `DOCKER_REGISTRY`) are auto-loaded from the `.env` file — no `export` needed.
+
+1. In mongo-express, create database `myappdb` and collection `users` if you
+   want to browse documents. The app will upsert into them automatically when
+   you submit the form.
 
 ## Tests and linting
 
@@ -126,11 +126,13 @@ npm test        # Jest unit + integration tests
 npm run lint    # ESLint for JavaScript files
 ```
 
-Markdown linting (run from project root):
+Markdown linting and formatting (run from project root):
 
 ```sh
 npm run lint:md      # Check markdown files
 npm run lint:md:fix  # Auto-fix markdown issues
+npm run format       # Format all markdown files with Prettier
+npm run format:check # Check formatting without writing
 ```
 
 ## API endpoints
@@ -159,6 +161,8 @@ Files you will find in `k8s/`:
   service for the Node app.
 - `mongo-express-deployment.yaml` / `mongo-express-service.yaml` – Deployment +
   LoadBalancer service for the mongo-express UI.
+- `mongo-init-configmap.yaml` – ConfigMap for MongoDB init script (creates
+  `app_user` with least-privilege access).
 
 Quick start (Docker Desktop, single-node cluster):
 

@@ -12,7 +12,8 @@ docker-compose -f docker-compose.yaml up
 
 Open http://localhost:3000 to use the app.
 
-> **Note:** Environment variables (`MONGO_USERNAME`, `MONGO_PASSWORD`, `DOCKER_REGISTRY`) are auto-loaded from the `.env` file — no `export` needed.
+> **Note:** Environment variables (`MONGO_USERNAME`, `MONGO_PASSWORD`,
+> `DOCKER_REGISTRY`) are auto-loaded from the `.env` file — no `export` needed.
 
 ## Docker & K8s
 
@@ -137,4 +138,5 @@ npm run lint           # ESLint
   with readWrite access to `myappdb` only - the app never uses root credentials
 - **Build vs orchestration**: docker-compose.yaml uses `image:` (not `build:`)
   for my-app — this teaches that image building and orchestration are separate
-  concerns. In production, CI/CD builds images once, then deploys them many times.
+  concerns. In production, CI/CD builds images once, then deploys them many
+  times.

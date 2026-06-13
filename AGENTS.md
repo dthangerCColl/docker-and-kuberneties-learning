@@ -33,6 +33,23 @@ kubectl apply -f k8s/                   # apply all manifests
 ./scripts/deploy-mongodb.sh            # deploy mongodb + wait
 ./scripts/deploy-apps.sh               # build image, deploy app + mongo-express
 ./scripts/smoke-test.sh                # verify services
+
+# Teardown — Docker Compose
+docker-compose -f docker-compose.yaml down -v
+
+# Teardown — Manual containers
+docker stop my-app mongodb mongo-express 2>/dev/null
+docker rm my-app mongodb mongo-express 2>/dev/null
+docker network rm mongo-network 2>/dev/null
+
+# Teardown — Remove built image
+docker rmi local/my-app:1.0
+
+# Teardown — Kubernetes
+kubectl delete -f k8s/
+
+# Teardown — Dangling images/volumes (affects ALL projects)
+docker system prune
 ```
 
 ## Service Ports

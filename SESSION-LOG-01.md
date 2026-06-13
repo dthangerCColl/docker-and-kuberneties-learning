@@ -91,3 +91,49 @@ kubectl apply -f k8s/mongo-init-configmap.yaml
 kubectl apply -f k8s/mongodb-secret.yaml
 kubectl apply -f k8s/mongodb-deployment.yaml
 ```
+
+---
+
+## Session 2: Teardown Documentation & Tooling Cleanup
+
+**Date:** 2026-06-12
+
+**Goal:** Add comprehensive teardown documentation and migrate uv tools to brew where possible.
+
+### What We Did
+
+#### 1. Added Teardown Documentation to README.md
+
+Added a complete `## Teardown` section covering:
+- **Docker Compose** — `docker-compose down -v` (removes containers, network, mongo-data volume)
+- **Manual containers** — `docker stop/rm` for my-app, mongodb, mongo-express + network removal
+- **Built image** — `docker rmi local/my-app:1.0`
+- **Kubernetes** — `kubectl delete -f k8s/` (all 9 manifests)
+- **Dangling cleanup** — `docker system prune` options with warnings about project scope
+- **K8s disable/re-enable** — Docker Desktop settings with note that re-enabling doesn't restore deleted resources
+
+#### 2. Migrated uv Tools to Brew
+
+| Tool | Before (uv) | After (brew) | Command |
+|------|------------|--------------|---------|
+| graphifyy | 0.7.13 | — (no brew) | stays in uv |
+| kimi-cli | 1.5 | 1.47.0 | `kimi` |
+| posting | 2.9.2 | httpie 3.2.4 | `http` |
+| specify-cli | 0.0.22 | 0.10.2 | `specify` |
+
+**Commands run:**
+```sh
+brew install httpie kimi-cli specify
+uv tool uninstall posting kimi-cli specify-cli
+```
+
+**Note:** `posting` is now invoked as `http` (HTTPie's command name).
+
+### Files Changed
+
+1. `README.md` — Added `## Teardown` section (lines 203-313)
+2. `AGENTS.md` — Added teardown commands to Docker & K8s section
+
+### What's Next
+
+No pending follow-ups from this session. The project now has complete setup and teardown documentation.

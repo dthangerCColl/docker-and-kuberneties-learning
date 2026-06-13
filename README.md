@@ -200,4 +200,114 @@ Troubleshooting
   - `kubectl logs <pod-name>`
 - If PVC is `Pending`, ensure your cluster has a default StorageClass (Docker Desktop provides `hostpath` by default).
 
-If you'd like, I can prepare a short commit message and commit these manifests and scripts to a branch, or add extra documentation snippets to this README (for example, expanding the troubleshooting section or adding screenshots).
+## Teardown
+
+Complete cleanup instructions to remove all project resources from your machine.
+
+### Docker Compose
+
+Stop containers, remove them, and delete the `mongo-data` volume:
+
+```sh
+docker-compose -f docker-compose.yaml down -v
+```
+
+The `-v` flag removes the named volume (`mongo-data`) that stored MongoDB data. Without it, the volume persists and data is reused on the next `docker-compose up`.
+
+### Manual Docker containers
+
+If you started containers manually (outside Compose):
+
+```sh
+# Stop and remove the containers
+docker stop my-app mongodb mongo-express 2>/dev/null
+docker rm my-app mongodb mongo-express 2>/dev/null
+
+# Remove the network
+docker network rm mongo-network 2>/dev/null
+```
+
+### Remove the built image
+
+Delete the `local/my-app:1.0` image built for this project:
+
+```sh
+docker rmi local/my-app:1.0
+```
+
+### Kubernetes
+
+Delete all Kubernetes resources created for this project:
+
+```sh
+# Delete in reverse order of creation
+kubectl delete -f k8s/mongo-express-service.yaml
+kubectl delete -f k8s/mongo-express-deployment.yaml
+kubectl delete -f k8s/my-app-service.yaml
+kubectl delete -f k8s/my-app-deployment.yaml
+kubectl delete -f k8s/mongodb-service.yaml
+kubectl delete -f k8s/mongodb-deployment.yaml
+kubectl delete -f k8s/mongodb-pvc.yaml
+kubectl delete -f k8s/mongodb-secret.yaml
+```
+
+Or delete all at once:
+
+```sh
+kubectl delete -f k8s/
+```
+
+Verify nothing remains:
+
+```sh
+kubectl get pods,services,secrets,pvc
+```
+
+### Clean up dangling images and volumes
+
+Remove unused Docker resources across all projects:
+
+```sh
+# Remove stopped containers, dangling images, and unused networks
+docker container prune
+docker image prune
+docker network prune
+
+# Remove unused volumes (caution: this affects ALL projects, not just this one)
+docker volume prune
+
+# Full cleanup (all of the above in one command)
+docker system prune
+
+# Nuclear option: remove everything including unused images across all projects
+docker system prune -a --volumes
+```
+
+> **Warning:** `docker volume prune` and `docker system prune -a --volumes` are **not project-scoped** — they remove unused resources from all Docker projects on your machine. Use them only if you want a completely clean Docker environment.
+
+### Disable Kubernetes in Docker Desktop
+
+If you only used Kubernetes for this project and want to free resources:
+
+1. Open **Docker Desktop** → **Settings** → **Kubernetes**
+2. Uncheck **Enable Kubernetes**
+3. Click **Apply & Restart**
+4. Wait for Docker Desktop to restart
+
+This removes the single-node Kubernetes cluster and all resources in it. Docker containers (Compose and manual) are unaffected.
+
+**To re-enable for other projects:**
+
+1. Docker Desktop → **Settings** → **Kubernetes**
+2. Check **Enable Kubernetes**
+3. Click **Apply & Restart**
+4. Wait for the cluster to become ready (green indicator in the bottom-left)
+
+Verify with:
+
+```sh
+kubectl cluster-info
+kubectl get nodes
+```
+
+> **Note:** Re-enabling Kubernetes does not restore previously deleted resources. You must re-apply any `k8s/` manifests you need.

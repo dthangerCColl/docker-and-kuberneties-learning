@@ -3,22 +3,21 @@
 ## Quick Start
 
 ```sh
-# 1. Set environment variables
-export MONGO_USERNAME=admin MONGO_PASSWORD=password DOCKER_REGISTRY=local
+# 1. Build the app image (required — compose uses a pre-built image, not a build context)
+docker build -t local/my-app:1.0 .
 
-# 2. Build the app image
-docker build -t ${DOCKER_REGISTRY}/my-app:1.0 .
-
-# 3. Start the stack (my-app + mongodb + mongo-express)
+# 2. Start the stack (my-app + mongodb + mongo-express)
 docker-compose -f docker-compose.yaml up
 ```
 
 Open http://localhost:3000 to use the app.
 
+> **Note:** Environment variables (`MONGO_USERNAME`, `MONGO_PASSWORD`, `DOCKER_REGISTRY`) are auto-loaded from the `.env` file — no `export` needed.
+
 ## Docker & K8s
 
 ```sh
-# Environment setup (required before docker-compose)
+# Environment setup (auto-loaded from .env — only needed if .env is missing)
 export MONGO_USERNAME=admin
 export MONGO_PASSWORD=password
 export DOCKER_REGISTRY=local
@@ -136,3 +135,6 @@ npm run lint           # ESLint
   mongo-express returns 401 without auth, returns 200 with auth
 - **Least privilege**: docker-compose.init.js creates a dedicated `app_user`
   with readWrite access to `myappdb` only - the app never uses root credentials
+- **Build vs orchestration**: docker-compose.yaml uses `image:` (not `build:`)
+  for my-app — this teaches that image building and orchestration are separate
+  concerns. In production, CI/CD builds images once, then deploys them many times.

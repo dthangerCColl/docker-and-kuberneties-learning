@@ -8,7 +8,7 @@ When creating markdown files, **avoid using raw angle brackets** like `\<TAB\>`,
 `\<file\>`, `\<number\>` inside code blocks, as some linters and renderers
 interpret them as HTML tags.
 
-### ✅ Solution: Use One of These Alternatives
+### ✅ Solution: Use One of These Alternatives as Best Practice
 
 #### Option 1: Backticks (Recommended)
 
